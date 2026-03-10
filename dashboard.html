@@ -9,7 +9,6 @@
 
 <link rel="stylesheet" href="style.css">
 
-<!-- Library PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
@@ -88,40 +87,30 @@ const { jsPDF } = window.jspdf;
 
 const doc = new jsPDF();
 
-
-
 doc.setFontSize(16);
 doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
-
-
 
 doc.setFontSize(12);
 
 doc.text("Sekolah : SM Sains Alor Gajah",20,35);
 
-doc.text("Nama Pemohon : "+item.nama,20,55);
+doc.text("Nama Pemohon : " + item.nama,20,55);
 
-doc.text("Tarikh Perjalanan : "+formatTarikh(item.tarikh),20,65);
+doc.text("Tarikh Perjalanan : " + formatTarikh(item.tarikh),20,65);
 
-doc.text("Tujuan / Aktiviti : "+item.aktiviti,20,75);
+doc.text("Tujuan / Aktiviti : " + item.aktiviti,20,75);
 
-doc.text("Pemandu : "+item.pemandu,20,85);
+doc.text("Pemandu : " + item.pemandu,20,85);
 
-doc.text("Kenderaan : "+item.kenderaan,20,95);
-
-
+doc.text("Kenderaan : " + item.kenderaan,20,95);
 
 doc.text(" ",20,120);
 
 doc.text("________________________",20,140);
 doc.text("Tandatangan Pemohon",20,150);
 
-
-
 doc.text("________________________",120,140);
 doc.text("Pengesahan Pentadbir",120,150);
-
-
 
 doc.save("borang_tempahan_bas.pdf");
 
@@ -138,13 +127,9 @@ data.forEach(function(item){
 html += "<tr>";
 
 html += "<td>"+item.nama+"</td>";
-
 html += "<td>"+formatTarikh(item.tarikh)+"</td>";
-
 html += "<td>"+item.aktiviti+"</td>";
-
 html += "<td>"+item.pemandu+"</td>";
-
 html += "<td>"+item.kenderaan+"</td>";
 
 html += "<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
@@ -168,8 +153,6 @@ script.src = URL + "?callback=showData";
 document.body.appendChild(script);
 
 }
-
-
 
 loadDashboard();
 
