@@ -1,107 +1,51 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>Dashboard Tempahan Bas</title>
-
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-<header>
-
-<img src="logo.jpg" class="logo">
-
-<h1>Dashboard Tempahan Bas</h1>
-<h3>SM Sains Alor Gajah</h3>
-
-</header>
-
-
-<div class="nav">
-
-<a href="index.html">Menu Utama</a>
-
-<a href="tempahan.html">Tempah Bas</a>
-
-</div>
-
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Nama Pemohon</th>
-<th>Tarikh</th>
-<th>Tujuan</th>
-<th>Pemandu</th>
-<th>Kenderaan</th>
-
-</tr>
-
-</thead>
-
-<tbody id="dataTempahan">
-
-</tbody>
-
-</table>
-
-
 <script>
 
-const URL = "https://script.google.com/macros/s/AKfycbxadg3jzotgg2cyTAoO8sJnlbWZs0LfNAbsNWnevVMMCEaA8uvKwmc7kpwOwuqBHlcwxQ/exec";
+const URL = "https://script.google.com/macros/s/AKfycbxj_fXliIj3MLhmJgzRwOOOC1gtiO3gexd7qn5Y-Qrsa9mClwCWpVP1_HWWJYBe8s3A/exec";
+
+function formatTarikh(t){
+
+if(!t) return "-"
+
+let d = new Date(t)
+
+return d.getDate().toString().padStart(2,'0') + "/" +
+(d.getMonth()+1).toString().padStart(2,'0') + "/" +
+d.getFullYear()
+
+}
 
 function loadDashboard(){
 
 fetch(URL)
 
-.then(response => response.json())
+.then(res => res.json())
 
 .then(data => {
 
-let html="";
+let html=""
 
-data.forEach(function(item){
+data.forEach(item => {
 
 html += `
 <tr>
 
 <td>${item.nama}</td>
-<td>${item.tarikh}</td>
+<td>${formatTarikh(item.tarikh)}</td>
 <td>${item.aktiviti}</td>
 <td>${item.pemandu}</td>
 <td>${item.kenderaan}</td>
 
 </tr>
-`;
-
-});
-
-document.getElementById("dataTempahan").innerHTML = html;
+`
 
 })
 
-.catch(error => {
+document.getElementById("dataTempahan").innerHTML = html
 
-console.log("Error:", error);
-
-});
+})
 
 }
 
-
-loadDashboard();
+loadDashboard()
 
 </script>
-
-</body>
-
-</html>
