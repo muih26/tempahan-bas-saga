@@ -9,6 +9,9 @@
 
 <link rel="stylesheet" href="style.css">
 
+<!-- Library PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
 
 <body>
@@ -26,12 +29,13 @@
 <div class="nav">
 
 <a href="index.html">Menu Utama</a>
+
 <a href="tempahan.html">Tempah Bas</a>
 
 </div>
 
 
-<table border="1" width="80%" align="center">
+<table border="1" width="90%" align="center">
 
 <thead>
 
@@ -42,6 +46,7 @@
 <th>Tujuan</th>
 <th>Pemandu</th>
 <th>Kenderaan</th>
+<th>PDF</th>
 
 </tr>
 
@@ -54,9 +59,11 @@
 </table>
 
 
+
 <script>
 
 const URL = "https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec";
+
 
 
 function formatTarikh(t){
@@ -75,6 +82,53 @@ return day + "/" + month + "/" + year;
 
 
 
+function downloadPDF(item){
+
+const { jsPDF } = window.jspdf;
+
+const doc = new jsPDF();
+
+
+
+doc.setFontSize(16);
+doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
+
+
+
+doc.setFontSize(12);
+
+doc.text("Sekolah : SM Sains Alor Gajah",20,35);
+
+doc.text("Nama Pemohon : "+item.nama,20,55);
+
+doc.text("Tarikh Perjalanan : "+formatTarikh(item.tarikh),20,65);
+
+doc.text("Tujuan / Aktiviti : "+item.aktiviti,20,75);
+
+doc.text("Pemandu : "+item.pemandu,20,85);
+
+doc.text("Kenderaan : "+item.kenderaan,20,95);
+
+
+
+doc.text(" ",20,120);
+
+doc.text("________________________",20,140);
+doc.text("Tandatangan Pemohon",20,150);
+
+
+
+doc.text("________________________",120,140);
+doc.text("Pengesahan Pentadbir",120,150);
+
+
+
+doc.save("borang_tempahan_bas.pdf");
+
+}
+
+
+
 function showData(data){
 
 let html="";
@@ -84,10 +138,16 @@ data.forEach(function(item){
 html += "<tr>";
 
 html += "<td>"+item.nama+"</td>";
+
 html += "<td>"+formatTarikh(item.tarikh)+"</td>";
+
 html += "<td>"+item.aktiviti+"</td>";
+
 html += "<td>"+item.pemandu+"</td>";
+
 html += "<td>"+item.kenderaan+"</td>";
+
+html += "<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
 
 html += "</tr>";
 
@@ -110,9 +170,11 @@ document.body.appendChild(script);
 }
 
 
+
 loadDashboard();
 
 </script>
+
 
 
 </body>
