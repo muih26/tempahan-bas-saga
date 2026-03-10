@@ -1,6 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Dashboard Tempahan Bas</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<img src="logo.jpg" class="logo">
+
+<h1>Dashboard Tempahan Bas</h1>
+<h3>SM Sains Alor Gajah</h3>
+
+</header>
+
+
+<div class="nav">
+
+<a href="index.html">Menu Utama</a>
+
+<a href="tempahan.html">Tempah Bas</a>
+
+</div>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Nama Pemohon</th>
+<th>Tarikh</th>
+<th>Tujuan</th>
+<th>Pemandu</th>
+<th>Kenderaan</th>
+
+</tr>
+
+</thead>
+
+<tbody id="dataTempahan">
+
+</tbody>
+
+</table>
+
+
+
 <script>
 
 const URL = "https://script.google.com/macros/s/AKfycbxadg3jzotgg2cyTAoO8sJnlbWZs0LfNAbsNWnevVMMCEaA8uvKwmc7kpwOwuqBHlcwxQ/exec";
+
 
 function formatTarikh(t){
 
@@ -16,11 +75,13 @@ return day + "/" + month + "/" + year;
 
 }
 
+
+
 function showData(data){
 
 let html="";
 
-data.forEach(item=>{
+data.forEach(function(item){
 
 html += `
 <tr>
@@ -38,6 +99,8 @@ document.getElementById("dataTempahan").innerHTML = html;
 
 }
 
+
+
 function loadDashboard(){
 
 var script = document.createElement("script");
@@ -48,6 +111,12 @@ document.body.appendChild(script);
 
 }
 
+
 loadDashboard();
 
 </script>
+
+
+</body>
+
+</html>
