@@ -15,17 +15,23 @@
 <header>
 
 <img src="logo.jpg" class="logo">
-
 <h1>Borang Tempahan Bas</h1>
 
 </header>
+
+<div class="nav">
+
+<a href="index.html">Menu Utama</a>
+<a href="dashboard.html">Dashboard</a>
+
+</div>
 
 <div class="container">
 
 <label>Tarikh Mohon</label>
 <input type="date" id="tarikhMohon">
 
-<label>Aktiviti</label>
+<label>Aktiviti / Tujuan</label>
 <input type="text" id="aktiviti">
 
 <label>Tempat</label>
@@ -36,19 +42,6 @@
 
 <label>Jawatan</label>
 <input type="text" id="jawatan">
-
-<h3>Bilangan Penumpang</h3>
-
-<label>Pelajar Lelaki</label>
-<input type="number" id="lelaki">
-
-<label>Pelajar Perempuan</label>
-<input type="number" id="perempuan">
-
-<label>Guru / Pegawai</label>
-<input type="number" id="guru">
-
-<h3>Butiran Perjalanan</h3>
 
 <label>Tarikh Perjalanan</label>
 <input type="date" id="tarikhPergi">
@@ -61,22 +54,13 @@
 
 <h3>Kenderaan</h3>
 
-<select id="kenderaan" onchange="checkKenderaan()">
+<select id="kenderaan">
 
-<option value="">Pilih</option>
 <option>Bas</option>
 <option>Coaster</option>
 <option>Van</option>
-<option>Lain-lain</option>
 
 </select>
-
-<div id="lain" style="display:none">
-
-<label>Kenderaan Lain</label>
-<input type="text" id="kenderaanLain">
-
-</div>
 
 <h3>Pemandu</h3>
 
@@ -87,6 +71,8 @@
 <br><br>
 
 <button onclick="hantar()">Hantar Tempahan</button>
+
+<button onclick="downloadPDF()">Download PDF Borang</button>
 
 </div>
 
