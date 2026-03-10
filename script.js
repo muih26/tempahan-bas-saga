@@ -1,20 +1,8 @@
-function checkKenderaan(){
-
-var k = document.getElementById("kenderaan").value
-
-if(k=="Lain-lain"){
-document.getElementById("lain").style.display="block"
-}
-else{
-document.getElementById("lain").style.display="none"
-}
-
-}
-
+const URL = "https://script.google.com/macros/s/AKfycbxadg3jzotgg2cyTAoO8sJnlbWZs0LfNAbsNWnevVMMCEaA8uvKwmc7kpwOwuqBHlcwxQ/exec";
 
 function hantar(){
 
-var pemandu=[]
+let pemandu=[]
 
 if(document.getElementById("faizal").checked)
 pemandu.push("En. Faizal")
@@ -22,44 +10,64 @@ pemandu.push("En. Faizal")
 if(document.getElementById("nuri").checked)
 pemandu.push("En. Nuri")
 
+let data={
 
-var data={
-
-tarikhMohon:document.getElementById("tarikhMohon").value,
-aktiviti:document.getElementById("aktiviti").value,
-tempat:document.getElementById("tempat").value,
 nama:document.getElementById("nama").value,
-jawatan:document.getElementById("jawatan").value,
-
-lelaki:document.getElementById("lelaki").value,
-perempuan:document.getElementById("perempuan").value,
-guru:document.getElementById("guru").value,
-
-tarikhPergi:document.getElementById("tarikhPergi").value,
-masaPergi:document.getElementById("masaPergi").value,
-masaBalik:document.getElementById("masaBalik").value,
-
-kenderaan:document.getElementById("kenderaan").value,
-kenderaanLain:document.getElementById("kenderaanLain").value,
-
-pemandu:pemandu.join(", ")
+tarikh:document.getElementById("tarikhPergi").value,
+aktiviti:document.getElementById("aktiviti").value,
+pemandu:pemandu.join(", "),
+kenderaan:document.getElementById("kenderaan").value
 
 }
 
-
-fetch("https://script.google.com/macros/s/AKfycbxadg3jzotgg2cyTAoO8sJnlbWZs0LfNAbsNWnevVMMCEaA8uvKwmc7kpwOwuqBHlcwxQ/exec",{
-
+fetch(URL,{
 method:"POST",
 body:JSON.stringify(data)
-
 })
 
 .then(res=>res.json())
-
 .then(res=>{
 
-alert("Tempahan berjaya dihantar!")
+alert("Tempahan berjaya!")
 
 })
+
+}
+
+function loadDashboard(){
+
+fetch(URL)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let table=""
+
+data.forEach(row=>{
+
+table+=`
+<tr>
+
+<td>${row.nama}</td>
+<td>${row.tarikh}</td>
+<td>${row.aktiviti}</td>
+<td>${row.pemandu}</td>
+<td>${row.kenderaan}</td>
+
+</tr>
+`
+
+})
+
+document.getElementById("dataTempahan").innerHTML=table
+
+})
+
+}
+
+function downloadPDF(){
+
+window.print()
 
 }
