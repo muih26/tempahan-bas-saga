@@ -4,11 +4,10 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Borang Tempahan Bas</title>
+
+<title>Tempahan Bas</title>
 
 <link rel="stylesheet" href="style.css">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
@@ -17,23 +16,30 @@
 <header>
 
 <img src="logo.jpg" class="logo">
-<h1>Borang Tempahan Bas</h1>
+
+<h1>Tempahan Bas</h1>
+<h3>SM Sains Alor Gajah</h3>
 
 </header>
+
 
 <div class="nav">
 
 <a href="index.html">Menu Utama</a>
+
 <a href="dashboard.html">Dashboard</a>
 
 </div>
 
+
 <div class="container">
+
+<form id="borangTempahan">
 
 <label>Tarikh Mohon</label>
 <input type="date" id="tarikhMohon">
 
-<label>Tujuan / Aktiviti</label>
+<label>Aktiviti</label>
 <input type="text" id="aktiviti">
 
 <label>Tempat</label>
@@ -45,6 +51,15 @@
 <label>Jawatan</label>
 <input type="text" id="jawatan">
 
+<label>Pelajar Lelaki</label>
+<input type="number" id="lelaki">
+
+<label>Pelajar Perempuan</label>
+<input type="number" id="perempuan">
+
+<label>Guru</label>
+<input type="number" id="guru">
+
 <label>Tarikh Perjalanan</label>
 <input type="date" id="tarikhPergi">
 
@@ -54,7 +69,8 @@
 <label>Masa Balik</label>
 <input type="time" id="masaBalik">
 
-<h3>Kenderaan</h3>
+
+<label>Kenderaan</label>
 
 <select id="kenderaan">
 
@@ -64,6 +80,7 @@
 
 </select>
 
+
 <h3>Pemandu</h3>
 
 <input type="checkbox" id="faizal"> En. Faizal
@@ -72,13 +89,68 @@
 
 <br><br>
 
-<button onclick="hantar()">Hantar Tempahan</button>
+<button type="button" onclick="hantar()">Hantar Tempahan</button>
 
-<button onclick="generatePDF()">Download PDF Borang Kenderaan</button>
+</form>
 
 </div>
 
-<script src="script.js"></script>
+
+<script>
+
+function hantar(){
+
+let pemandu=[]
+
+if(document.getElementById("faizal").checked)
+pemandu.push("En. Faizal")
+
+if(document.getElementById("nuri").checked)
+pemandu.push("En. Nuri")
+
+let data={
+
+tarikhMohon:document.getElementById("tarikhMohon").value,
+aktiviti:document.getElementById("aktiviti").value,
+tempat:document.getElementById("tempat").value,
+nama:document.getElementById("nama").value,
+jawatan:document.getElementById("jawatan").value,
+
+lelaki:document.getElementById("lelaki").value,
+perempuan:document.getElementById("perempuan").value,
+guru:document.getElementById("guru").value,
+
+tarikhPergi:document.getElementById("tarikhPergi").value,
+masaPergi:document.getElementById("masaPergi").value,
+masaBalik:document.getElementById("masaBalik").value,
+
+kenderaan:document.getElementById("kenderaan").value,
+pemandu:pemandu.join(", ")
+
+}
+
+fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
+
+method:"POST",
+body:JSON.stringify(data)
+
+})
+
+.then(res=>res.json())
+
+.then(res=>{
+
+alert("✅ Tempahan anda berjaya!");
+
+document.getElementById("borangTempahan").reset();
+
+})
+
+}
+
+</script>
+
 
 </body>
+
 </html>
