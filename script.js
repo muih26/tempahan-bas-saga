@@ -1,4 +1,4 @@
-const URL = "https://script.google.com/macros/s/AKfycbxadg3jzotgg2cyTAoO8sJnlbWZs0LfNAbsNWnevVMMCEaA8uvKwmc7kpwOwuqBHlcwxQ/exec";
+const URL = "https://script.google.com/macros/s/AKfycbxj_fXliIj3MLhmJgzRwOOOC1gtiO3gexd7qn5Y-Qrsa9mClwCWpVP1_HWWJYBe8s3A/exec";
 
 function hantar(){
 
@@ -86,3 +86,4 @@ doc.text("Pengesahan Pentadbir",120,210)
 doc.save("borang_tempahan_bas.pdf")
 
 }
+
