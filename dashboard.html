@@ -26,13 +26,12 @@
 <div class="nav">
 
 <a href="index.html">Menu Utama</a>
-
 <a href="tempahan.html">Tempah Bas</a>
 
 </div>
 
 
-<table>
+<table border="1" width="80%" align="center">
 
 <thead>
 
@@ -55,7 +54,6 @@
 </table>
 
 
-
 <script>
 
 const URL = "https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec";
@@ -67,8 +65,8 @@ if(!t) return "-";
 
 let d = new Date(t);
 
-let day = String(d.getDate()).padStart(2,'0');
-let month = String(d.getMonth()+1).padStart(2,'0');
+let day = ("0" + d.getDate()).slice(-2);
+let month = ("0" + (d.getMonth()+1)).slice(-2);
 let year = d.getFullYear();
 
 return day + "/" + month + "/" + year;
@@ -83,15 +81,15 @@ let html="";
 
 data.forEach(function(item){
 
-html += `
-<tr>
-<td>${item.nama}</td>
-<td>${formatTarikh(item.tarikh)}</td>
-<td>${item.aktiviti}</td>
-<td>${item.pemandu}</td>
-<td>${item.kenderaan}</td>
-</tr>
-`;
+html += "<tr>";
+
+html += "<td>"+item.nama+"</td>";
+html += "<td>"+formatTarikh(item.tarikh)+"</td>";
+html += "<td>"+item.aktiviti+"</td>";
+html += "<td>"+item.pemandu+"</td>";
+html += "<td>"+item.kenderaan+"</td>";
+
+html += "</tr>";
 
 });
 
@@ -120,4 +118,3 @@ loadDashboard();
 </body>
 
 </html>
-
