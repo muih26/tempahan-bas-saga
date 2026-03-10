@@ -27,47 +27,62 @@ body:JSON.stringify(data)
 
 .then(res=>res.json())
 .then(res=>{
-
-alert("Tempahan berjaya!")
-
+alert("Tempahan berjaya dihantar!")
 })
 
 }
 
-function loadDashboard(){
 
-fetch(URL)
 
-.then(res=>res.json())
+function generatePDF(){
 
-.then(data=>{
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
 
-let table=""
+let nama=document.getElementById("nama").value
+let aktiviti=document.getElementById("aktiviti").value
+let tempat=document.getElementById("tempat").value
+let tarikh=document.getElementById("tarikhPergi").value
+let masaPergi=document.getElementById("masaPergi").value
+let masaBalik=document.getElementById("masaBalik").value
+let jawatan=document.getElementById("jawatan").value
+let kenderaan=document.getElementById("kenderaan").value
 
-data.forEach(row=>{
+let pemandu=[]
 
-table+=`
-<tr>
+if(document.getElementById("faizal").checked)
+pemandu.push("En. Faizal")
 
-<td>${row.nama}</td>
-<td>${row.tarikh}</td>
-<td>${row.aktiviti}</td>
-<td>${row.pemandu}</td>
-<td>${row.kenderaan}</td>
+if(document.getElementById("nuri").checked)
+pemandu.push("En. Nuri")
 
-</tr>
-`
+doc.setFontSize(16)
+doc.text("PERMOHONAN KENDERAAN SEKOLAH",20,20)
 
-})
+doc.setFontSize(12)
 
-document.getElementById("dataTempahan").innerHTML=table
+doc.text("Sekolah : SM Sains Alor Gajah",20,30)
 
-})
+doc.text("Nama Pemohon : "+nama,20,50)
+doc.text("Jawatan : "+jawatan,20,60)
 
-}
+doc.text("Tujuan : "+aktiviti,20,80)
+doc.text("Tempat : "+tempat,20,90)
 
-function downloadPDF(){
+doc.text("Tarikh Perjalanan : "+tarikh,20,110)
+doc.text("Masa Pergi : "+masaPergi,20,120)
+doc.text("Masa Balik : "+masaBalik,20,130)
 
-window.print()
+doc.text("Kenderaan : "+kenderaan,20,150)
+doc.text("Pemandu : "+pemandu.join(", "),20,160)
+
+doc.text(" ",20,190)
+doc.text("_________________________",20,200)
+doc.text("Tandatangan Pemohon",20,210)
+
+doc.text("_________________________",120,200)
+doc.text("Pengesahan Pentadbir",120,210)
+
+doc.save("borang_tempahan_bas.pdf")
 
 }
