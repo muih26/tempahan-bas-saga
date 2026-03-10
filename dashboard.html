@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <title>Dashboard Tempahan Bas</title>
 
 <link rel="stylesheet" href="style.css">
@@ -15,16 +16,21 @@
 <header>
 
 <img src="logo.jpg" class="logo">
+
 <h1>Dashboard Tempahan Bas</h1>
+<h3>SM Sains Alor Gajah</h3>
 
 </header>
+
 
 <div class="nav">
 
 <a href="index.html">Menu Utama</a>
+
 <a href="tempahan.html">Tempah Bas</a>
 
 </div>
+
 
 <table>
 
@@ -48,13 +54,54 @@
 
 </table>
 
-<script src="script.js"></script>
 
 <script>
 
-loadDashboard()
+const URL = "https://script.google.com/macros/s/AKfycbxadg3jzotgg2cyTAoO8sJnlbWZs0LfNAbsNWnevVMMCEaA8uvKwmc7kpwOwuqBHlcwxQ/exec";
+
+function loadDashboard(){
+
+fetch(URL)
+
+.then(response => response.json())
+
+.then(data => {
+
+let html="";
+
+data.forEach(function(item){
+
+html += `
+<tr>
+
+<td>${item.nama}</td>
+<td>${item.tarikh}</td>
+<td>${item.aktiviti}</td>
+<td>${item.pemandu}</td>
+<td>${item.kenderaan}</td>
+
+</tr>
+`;
+
+});
+
+document.getElementById("dataTempahan").innerHTML = html;
+
+})
+
+.catch(error => {
+
+console.log("Error:", error);
+
+});
+
+}
+
+
+loadDashboard();
 
 </script>
 
 </body>
+
 </html>
