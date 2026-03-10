@@ -8,6 +8,8 @@
 
 <link rel="stylesheet" href="style.css">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
 
 <body>
@@ -31,7 +33,7 @@
 <label>Tarikh Mohon</label>
 <input type="date" id="tarikhMohon">
 
-<label>Aktiviti / Tujuan</label>
+<label>Tujuan / Aktiviti</label>
 <input type="text" id="aktiviti">
 
 <label>Tempat</label>
@@ -72,7 +74,7 @@
 
 <button onclick="hantar()">Hantar Tempahan</button>
 
-<button onclick="downloadPDF()">Download PDF Borang</button>
+<button onclick="generatePDF()">Download PDF Borang Kenderaan</button>
 
 </div>
 
