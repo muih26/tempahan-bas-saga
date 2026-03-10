@@ -28,20 +28,20 @@
 <div class="nav">
 
 <a href="index.html">Menu Utama</a>
-
 <a href="tempahan.html">Tempah Bas</a>
 
 </div>
 
 
-<table border="1" width="90%" align="center">
+<table border="1" width="95%" align="center">
 
 <thead>
 
 <tr>
 
 <th>Nama Pemohon</th>
-<th>Tarikh</th>
+<th>Tarikh Pergi</th>
+<th>Tarikh Pulang</th>
 <th>Tujuan</th>
 <th>Pemandu</th>
 <th>Kenderaan</th>
@@ -92,25 +92,19 @@ doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
 
 doc.setFontSize(12);
 
-doc.text("Sekolah : SM Sains Alor Gajah",20,35);
+doc.text("Sekolah : SM Sains Alor Gajah",20,40);
 
-doc.text("Nama Pemohon : " + item.nama,20,55);
+doc.text("Nama Pemohon : "+item.nama,20,60);
 
-doc.text("Tarikh Perjalanan : " + formatTarikh(item.tarikh),20,65);
+doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,70);
 
-doc.text("Tujuan / Aktiviti : " + item.aktiviti,20,75);
+doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,80);
 
-doc.text("Pemandu : " + item.pemandu,20,85);
+doc.text("Tujuan : "+item.aktiviti,20,90);
 
-doc.text("Kenderaan : " + item.kenderaan,20,95);
+doc.text("Pemandu : "+item.pemandu,20,100);
 
-doc.text(" ",20,120);
-
-doc.text("________________________",20,140);
-doc.text("Tandatangan Pemohon",20,150);
-
-doc.text("________________________",120,140);
-doc.text("Pengesahan Pentadbir",120,150);
+doc.text("Kenderaan : "+item.kenderaan,20,110);
 
 doc.save("borang_tempahan_bas.pdf");
 
@@ -124,21 +118,27 @@ let html="";
 
 data.forEach(function(item){
 
-html += "<tr>";
+html+="<tr>";
 
-html += "<td>"+item.nama+"</td>";
-html += "<td>"+formatTarikh(item.tarikh)+"</td>";
-html += "<td>"+item.aktiviti+"</td>";
-html += "<td>"+item.pemandu+"</td>";
-html += "<td>"+item.kenderaan+"</td>";
+html+="<td>"+item.nama+"</td>";
 
-html += "<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
+html+="<td>"+formatTarikh(item.tarikhPergi)+"</td>";
 
-html += "</tr>";
+html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
+
+html+="<td>"+item.aktiviti+"</td>";
+
+html+="<td>"+item.pemandu+"</td>";
+
+html+="<td>"+item.kenderaan+"</td>";
+
+html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
+
+html+="</tr>";
 
 });
 
-document.getElementById("dataTempahan").innerHTML = html;
+document.getElementById("dataTempahan").innerHTML=html;
 
 }
 
@@ -146,9 +146,9 @@ document.getElementById("dataTempahan").innerHTML = html;
 
 function loadDashboard(){
 
-var script = document.createElement("script");
+var script=document.createElement("script");
 
-script.src = URL + "?callback=showData";
+script.src=URL+"?callback=showData";
 
 document.body.appendChild(script);
 
@@ -158,8 +158,5 @@ loadDashboard();
 
 </script>
 
-
-
 </body>
-
 </html>
