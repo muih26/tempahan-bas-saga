@@ -10,7 +10,6 @@ if(document.getElementById("nuri").checked){
 pemandu.push("En. Nuri");
 }
 
-
 let data={
 
 tarikhMohon:document.getElementById("tarikhMohon").value,
@@ -34,7 +33,6 @@ pemandu:pemandu.join(", ")
 
 };
 
-
 fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
 
 method:"POST",
@@ -54,14 +52,6 @@ setTimeout(function(){
 window.location.href="dashboard.html";
 
 },1500);
-
-})
-
-.catch(err=>{
-
-alert("❌ Tempahan gagal dihantar");
-
-console.log(err);
 
 });
 
