@@ -4,19 +4,12 @@
 <head>
 
 <meta charset="UTF-8">
+
 <title>Dashboard Tempahan Bas</title>
 
 <link rel="stylesheet" href="style.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<style>
-
-.overlap{
-background:#ffcccc;
-}
-
-</style>
 
 </head>
 
@@ -67,7 +60,8 @@ background:#ffcccc;
 
 <script>
 
-const URL="https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec";
+const URL="https://script.google.com/macros/s/AKfycbxEo_Zz5jdZCaLZigjbestPtdlwc4mEEKKqo9BmbAcTOGQFN53H0IDSY0p3H78MuPfmNw/exec";
+
 
 function formatTarikh(t){
 
@@ -109,54 +103,18 @@ doc.text("Pemandu : "+item.pemandu,20,100);
 
 doc.text("Kenderaan : "+item.kenderaan,20,110);
 
-
-doc.text("_________________________",20,160);
-doc.text("Tandatangan Pemohon",20,170);
-
-
-doc.text("_________________________",140,160);
-doc.text("Tandatangan Pelulus",140,170);
-
-
 doc.save("borang_tempahan_bas.pdf");
 
 }
 
 
-
-function detectOverlap(data){
-
-let used={}
-
-data.forEach(item=>{
-
-let key=item.kenderaan+"-"+item.tarikhPergi
-
-if(!used[key]){
-used[key]=1
-}else{
-item.overlap=true
-}
-
-})
-
-}
-
-
-
 function showData(data){
-
-data.sort((a,b)=> new Date(b.tarikhPergi)-new Date(a.tarikhPergi))
-
-detectOverlap(data)
 
 let html="";
 
 data.forEach(function(item){
 
-let rowClass=item.overlap ? "class='overlap'" : ""
-
-html+="<tr "+rowClass+">";
+html+="<tr>";
 
 html+="<td>"+item.nama+"</td>";
 
@@ -195,5 +153,7 @@ loadDashboard();
 
 </script>
 
+
 </body>
+
 </html>
