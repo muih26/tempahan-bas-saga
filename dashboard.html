@@ -23,7 +23,6 @@
 
 </header>
 
-
 <div class="menu">
 
 <a href="index.html">Menu Utama</a>
@@ -31,13 +30,11 @@
 
 </div>
 
-
 <table border="1" width="95%" align="center">
 
 <thead>
 
 <tr>
-
 <th>Nama Pemohon</th>
 <th>Tarikh Pergi</th>
 <th>Tarikh Pulang</th>
@@ -45,7 +42,6 @@
 <th>Pemandu</th>
 <th>Kenderaan</th>
 <th>PDF</th>
-
 </tr>
 
 </thead>
@@ -55,7 +51,6 @@
 </tbody>
 
 </table>
-
 
 <script>
 
@@ -74,7 +69,6 @@ let year=d.getFullYear();
 return day+"/"+month+"/"+year;
 
 }
-
 
 function downloadPDF(item){
 
@@ -105,7 +99,6 @@ doc.save("borang_tempahan_bas.pdf");
 
 }
 
-
 function showData(data){
 
 let html="";
@@ -115,15 +108,10 @@ data.forEach(function(item){
 html+="<tr>";
 
 html+="<td>"+item.nama+"</td>";
-
 html+="<td>"+formatTarikh(item.tarikhPergi)+"</td>";
-
 html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
-
 html+="<td>"+item.aktiviti+"</td>";
-
 html+="<td>"+item.pemandu+"</td>";
-
 html+="<td>"+item.kenderaan+"</td>";
 
 html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
@@ -135,7 +123,6 @@ html+="</tr>";
 document.getElementById("dataTempahan").innerHTML=html;
 
 }
-
 
 function loadDashboard(){
 
@@ -151,7 +138,5 @@ loadDashboard();
 
 </script>
 
-
 </body>
-
 </html>
