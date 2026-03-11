@@ -4,12 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-
-<title>Dashboard Tempahan Bas</title>
+<title>Tempahan Bas</title>
 
 <link rel="stylesheet" href="style.css">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
@@ -19,7 +16,7 @@
 
 <img src="logo.jpg" class="logo">
 
-<h1>Dashboard Tempahan Bas</h1>
+<h1>Tempahan Bas</h1>
 <h3>SM Sains Alor Gajah</h3>
 
 </header>
@@ -28,131 +25,93 @@
 <div class="nav">
 
 <a href="index.html">Menu Utama</a>
-<a href="tempahan.html">Tempah Bas</a>
+<a href="dashboard.html">Dashboard</a>
 
 </div>
 
 
-<table border="1" width="95%" align="center">
+<div class="container">
 
-<thead>
+<form id="borangTempahan">
 
-<tr>
-
-<th>Nama Pemohon</th>
-<th>Tarikh Pergi</th>
-<th>Tarikh Pulang</th>
-<th>Tujuan</th>
-<th>Pemandu</th>
-<th>Kenderaan</th>
-<th>PDF</th>
-
-</tr>
-
-</thead>
-
-<tbody id="dataTempahan">
-
-</tbody>
-
-</table>
+<label>Tarikh Mohon</label>
+<input type="date" id="tarikhMohon">
 
 
-<script>
-
-const URL="https://script.google.com/macros/s/AKfycbxEo_Zz5jdZCaLZigjbestPtdlwc4mEEKKqo9BmbAcTOGQFN53H0IDSY0p3H78MuPfmNw/exec";
-
-
-function formatTarikh(t){
-
-if(!t) return "-";
-
-let d=new Date(t);
-
-let day=("0"+d.getDate()).slice(-2);
-let month=("0"+(d.getMonth()+1)).slice(-2);
-let year=d.getFullYear();
-
-return day+"/"+month+"/"+year;
-
-}
+<label>Aktiviti</label>
+<input type="text" id="aktiviti">
 
 
-function downloadPDF(item){
-
-const { jsPDF } = window.jspdf;
-
-const doc=new jsPDF();
-
-doc.setFontSize(16);
-doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
-
-doc.setFontSize(12);
-
-doc.text("Sekolah : SM Sains Alor Gajah",20,40);
-
-doc.text("Nama Pemohon : "+item.nama,20,60);
-
-doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,70);
-
-doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,80);
-
-doc.text("Tujuan : "+item.aktiviti,20,90);
-
-doc.text("Pemandu : "+item.pemandu,20,100);
-
-doc.text("Kenderaan : "+item.kenderaan,20,110);
-
-doc.save("borang_tempahan_bas.pdf");
-
-}
+<label>Tempat</label>
+<input type="text" id="tempat">
 
 
-function showData(data){
-
-let html="";
-
-data.forEach(function(item){
-
-html+="<tr>";
-
-html+="<td>"+item.nama+"</td>";
-
-html+="<td>"+formatTarikh(item.tarikhPergi)+"</td>";
-
-html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
-
-html+="<td>"+item.aktiviti+"</td>";
-
-html+="<td>"+item.pemandu+"</td>";
-
-html+="<td>"+item.kenderaan+"</td>";
-
-html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
-
-html+="</tr>";
-
-});
-
-document.getElementById("dataTempahan").innerHTML=html;
-
-}
+<label>Nama Pemohon</label>
+<input type="text" id="nama">
 
 
-function loadDashboard(){
+<label>Jawatan</label>
+<input type="text" id="jawatan">
 
-var script=document.createElement("script");
 
-script.src=URL+"?callback=showData";
+<label>Pelajar Lelaki</label>
+<input type="number" id="lelaki">
 
-document.body.appendChild(script);
 
-}
+<label>Pelajar Perempuan</label>
+<input type="number" id="perempuan">
 
-loadDashboard();
 
-</script>
+<label>Guru</label>
+<input type="number" id="guru">
 
+
+<!-- TARIKH PERGI -->
+<label>Tarikh Pergi</label>
+<input type="date" id="tarikhPergi">
+
+
+<!-- TARIKH PULANG -->
+<label>Tarikh Pulang</label>
+<input type="date" id="tarikhPulang">
+
+
+<label>Masa Pergi</label>
+<input type="time" id="masaPergi">
+
+
+<label>Masa Balik</label>
+<input type="time" id="masaBalik">
+
+
+<label>Kenderaan</label>
+
+<select id="kenderaan">
+
+<option>Bas</option>
+<option>Coaster</option>
+<option>Van</option>
+
+</select>
+
+
+<h3>Pemandu</h3>
+
+<input type="checkbox" id="faizal"> En. Faizal
+<br>
+<input type="checkbox" id="nuri"> En. Nuri
+
+<br><br>
+
+<button type="button" onclick="hantar()">Hantar Tempahan</button>
+
+</form>
+
+</div>
+
+
+
+<script src="script.js"></script>
 
 </body>
 
