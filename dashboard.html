@@ -10,6 +10,14 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+<style>
+
+.clash{
+background-color:#ffb3b3;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -37,7 +45,6 @@
 <thead>
 
 <tr>
-
 <th>Nama Pemohon</th>
 <th>Tarikh Pergi</th>
 <th>Tarikh Pulang</th>
@@ -45,7 +52,6 @@
 <th>Pemandu</th>
 <th>Kenderaan</th>
 <th>PDF</th>
-
 </tr>
 
 </thead>
@@ -59,7 +65,54 @@
 
 <script>
 
-const URL="https://script.google.com/macros/s/AKfycbx8M3jZXiBj4tSbz5mtVOnJ57TuxtmfzCCgIULTIRFKWmedtQAl_sX_F_nVjlR7Dzs4Zg/exec";
+const URL="https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec";
+
+function formatTarikh(t){
+
+if(!t) return "-";
+
+let tarikh = t.toString().split("T")[0];
+
+let parts = tarikh.split("-");
+
+return parts[2]+"/"+parts[1]+"/"+parts[0];
+
+}
+
+
+function detectClash(data,index){
+
+let current=data[index];
+
+for(let i=0;i<data.length;i++){
+
+if(i!==index){
+
+let other=data[i];
+
+if(current.kenderaan===other.kenderaan){
+
+let start1=new Date(current.tarikhPergi);
+let end1=new Date(current.tarikhPulang);
+
+let start2=new Date(other.tarikhPergi);
+let end2=new Date(other.tarikhPulang);
+
+if(start1<=end2 && end1>=start2){
+
+return true;
+
+}
+
+}
+
+}
+
+}
+
+return false;
+
+}
 
 
 function downloadPDF(item){
@@ -69,47 +122,47 @@ const { jsPDF } = window.jspdf;
 const doc=new jsPDF();
 
 doc.setFontSize(16);
-doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
+doc.text("BORANG TEMPAHAN BAS",20,20);
 
 doc.setFontSize(12);
 
 doc.text("Sekolah : SM Sains Alor Gajah",20,40);
-
 doc.text("Nama Pemohon : "+item.nama,20,60);
-
-doc.text("Tarikh Pergi : "+item.tarikhPergi,20,70);
-
-doc.text("Tarikh Pulang : "+item.tarikhPulang,20,80);
-
+doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,70);
+doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,80);
 doc.text("Tujuan : "+item.aktiviti,20,90);
-
 doc.text("Pemandu : "+item.pemandu,20,100);
-
 doc.text("Kenderaan : "+item.kenderaan,20,110);
 
-doc.save("borang_tempahan_bas.pdf");
+doc.save("tempahan_bas.pdf");
 
 }
 
 
 function showData(data){
 
+/* SUSUN IKUT TARIKH PERGI */
+
+data.sort(function(a,b){
+
+return new Date(b.tarikhPergi)-new Date(a.tarikhPergi);
+
+});
+
+
 let html="";
 
-data.forEach(function(item){
+data.forEach(function(item,index){
 
-html+="<tr>";
+let clash = detectClash(data,index);
+
+html+="<tr class='"+(clash?"clash":"")+"'>";
 
 html+="<td>"+item.nama+"</td>";
-
-html+="<td>"+(item.tarikhPergi || "-")+"</td>";
-
-html+="<td>"+(item.tarikhPulang || "-")+"</td>";
-
+html+="<td>"+formatTarikh(item.tarikhPergi)+"</td>";
+html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
 html+="<td>"+item.aktiviti+"</td>";
-
 html+="<td>"+item.pemandu+"</td>";
-
 html+="<td>"+item.kenderaan+"</td>";
 
 html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
@@ -137,7 +190,5 @@ loadDashboard();
 
 </script>
 
-
 </body>
-
 </html>
