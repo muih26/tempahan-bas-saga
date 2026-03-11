@@ -10,15 +10,16 @@
 
 <style>
 
-.checkbox-group{
-margin-bottom:20px;
+.pilihan{
+margin-bottom:25px;
 }
 
-.checkbox-item{
+.pilihan-item{
 display:flex;
 align-items:center;
 gap:10px;
-margin-bottom:8px;
+margin:8px 0;
+font-size:16px;
 }
 
 </style>
@@ -88,22 +89,22 @@ margin-bottom:8px;
 
 <h3>Kenderaan</h3>
 
-<div class="checkbox-group">
+<div class="pilihan">
 
-<div class="checkbox-item">
+<label class="pilihan-item">
 <input type="checkbox" id="bas">
-<label>Bas</label>
-</div>
+<span>Bas</span>
+</label>
 
-<div class="checkbox-item">
+<label class="pilihan-item">
 <input type="checkbox" id="coaster">
-<label>Coaster</label>
-</div>
+<span>Coaster</span>
+</label>
 
-<div class="checkbox-item">
+<label class="pilihan-item">
 <input type="checkbox" id="van">
-<label>Van</label>
-</div>
+<span>Van</span>
+</label>
 
 </div>
 
@@ -111,17 +112,17 @@ margin-bottom:8px;
 
 <h3>Pemandu</h3>
 
-<div class="checkbox-group">
+<div class="pilihan">
 
-<div class="checkbox-item">
+<label class="pilihan-item">
 <input type="checkbox" id="faizal">
-<label>En. Faizal</label>
-</div>
+<span>En. Faizal</span>
+</label>
 
-<div class="checkbox-item">
+<label class="pilihan-item">
 <input type="checkbox" id="nuri">
-<label>En. Nuri</label>
-</div>
+<span>En. Nuri</span>
+</label>
 
 </div>
 
@@ -131,6 +132,7 @@ margin-bottom:8px;
 </form>
 
 </div>
+
 
 
 <script>
