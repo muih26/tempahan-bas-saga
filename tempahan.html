@@ -2,6 +2,7 @@
 <html>
 
 <head>
+
 <meta charset="UTF-8">
 <title>Tempahan Bas</title>
 
@@ -19,6 +20,7 @@
 <h3>SM Sains Alor Gajah</h3>
 
 </header>
+
 
 <div class="menu">
 
@@ -84,13 +86,75 @@
 
 <br><br>
 
-<button type="button" onclick="hantar()">Hantar Tempahan</button>
+<button type="button" onclick="hantarTempahan()">Hantar Tempahan</button>
 
 </form>
 
 </div>
 
-<script src="script.js"></script>
+
+<script>
+
+function hantarTempahan(){
+
+let pemandu=[];
+
+if(document.getElementById("faizal").checked){
+pemandu.push("En. Faizal");
+}
+
+if(document.getElementById("nuri").checked){
+pemandu.push("En. Nuri");
+}
+
+let data={
+
+tarikhMohon:document.getElementById("tarikhMohon").value,
+aktiviti:document.getElementById("aktiviti").value,
+tempat:document.getElementById("tempat").value,
+nama:document.getElementById("nama").value,
+jawatan:document.getElementById("jawatan").value,
+
+lelaki:document.getElementById("lelaki").value,
+perempuan:document.getElementById("perempuan").value,
+guru:document.getElementById("guru").value,
+
+tarikhPergi:document.getElementById("tarikhPergi").value,
+tarikhPulang:document.getElementById("tarikhPulang").value,
+
+masaPergi:document.getElementById("masaPergi").value,
+masaBalik:document.getElementById("masaBalik").value,
+
+kenderaan:document.getElementById("kenderaan").value,
+pemandu:pemandu.join(", ")
+
+};
+
+fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
+
+method:"POST",
+mode:"no-cors",
+body:JSON.stringify(data)
+
+})
+
+.then(()=>{
+
+alert("Tempahan berjaya dihantar");
+
+document.getElementById("borangTempahan").reset();
+
+setTimeout(function(){
+
+window.location.href="dashboard.html";
+
+},1500);
+
+});
+
+}
+
+</script>
 
 </body>
 </html>
