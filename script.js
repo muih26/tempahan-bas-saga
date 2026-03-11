@@ -1,3 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Tempahan Bas</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<img src="logo.jpg" class="logo">
+
+<h1>Tempahan Bas</h1>
+<h3>SM Sains Alor Gajah</h3>
+
+</header>
+
+
+<div class="nav">
+
+<a href="index.html">Menu Utama</a>
+<a href="dashboard.html">Dashboard</a>
+
+</div>
+
+
+<div class="container">
+
+<form id="borangTempahan">
+
+<label>Tarikh Mohon</label>
+<input type="date" id="tarikhMohon">
+
+<label>Aktiviti</label>
+<input type="text" id="aktiviti">
+
+<label>Tempat</label>
+<input type="text" id="tempat">
+
+<label>Nama Pemohon</label>
+<input type="text" id="nama">
+
+<label>Jawatan</label>
+<input type="text" id="jawatan">
+
+<label>Pelajar Lelaki</label>
+<input type="number" id="lelaki">
+
+<label>Pelajar Perempuan</label>
+<input type="number" id="perempuan">
+
+<label>Guru</label>
+<input type="number" id="guru">
+
+
+<label>Tarikh Perjalanan</label>
+<input type="date" id="tarikhPergi">
+
+<label>Tarikh Pulang</label>
+<input type="date" id="tarikhPulang">
+
+
+<label>Masa Pergi</label>
+<input type="time" id="masaPergi">
+
+<label>Masa Balik</label>
+<input type="time" id="masaBalik">
+
+
+<label>Kenderaan</label>
+
+<select id="kenderaan">
+
+<option>Bas</option>
+<option>Coaster</option>
+<option>Van</option>
+
+</select>
+
+
+<h3>Pemandu</h3>
+
+<input type="checkbox" id="faizal"> En. Faizal
+<br>
+<input type="checkbox" id="nuri"> En. Nuri
+
+<br><br>
+
+<button type="button" onclick="hantar()">Hantar Tempahan</button>
+
+</form>
+
+</div>
+
+
+
+<script>
+
 function hantar(){
 
 let pemandu=[]
@@ -21,6 +126,8 @@ perempuan:document.getElementById("perempuan").value,
 guru:document.getElementById("guru").value,
 
 tarikhPergi:document.getElementById("tarikhPergi").value,
+tarikhPulang:document.getElementById("tarikhPulang").value,
+
 masaPergi:document.getElementById("masaPergi").value,
 masaBalik:document.getElementById("masaBalik").value,
 
@@ -29,22 +136,33 @@ pemandu:pemandu.join(", ")
 
 }
 
-fetch("https://script.google.com/macros/s/AKfycbxvokDAbgA9mp9Sevt2Q5F5alnyJjwW7Jftq2zpxoSguOf2u787Sgka2CD7zZVRN658VA/exec",{
+fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
 
 method:"POST",
+mode:"no-cors",
 body:JSON.stringify(data)
 
 })
 
-.then(res=>res.json())
+.then(()=>{
 
-.then(res=>{
+alert("✅ Tempahan berjaya dihantar!")
 
-alert("✅ Tempahan anda berjaya dihantar!");
+document.getElementById("borangTempahan").reset()
 
-document.querySelector("form").reset();
+setTimeout(function(){
+
+window.location.href="dashboard.html"
+
+},1500)
 
 })
 
 }
 
+</script>
+
+
+</body>
+
+</html>
