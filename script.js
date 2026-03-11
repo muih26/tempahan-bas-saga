@@ -33,7 +33,7 @@ pemandu:pemandu.join(", ")
 
 };
 
-fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
+fetch("https://script.google.com/macros/s/AKfycbxLh29v0OuPxCOW-7KX5WP36QNm0eDJw4THBQExEvI-kb_5NdnzkkztjfiO3cqadD3MGA/exec",{
 
 method:"POST",
 body:JSON.stringify(data)
@@ -56,3 +56,4 @@ console.log(err);
 });
 
 }
+
