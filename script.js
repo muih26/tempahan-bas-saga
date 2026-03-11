@@ -33,7 +33,7 @@ pemandu:pemandu.join(", ")
 
 };
 
-fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
+fetch("https://script.google.com/macros/s/AKfycbxEo_Zz5jdZCaLZigjbestPtdlwc4mEEKKqo9BmbAcTOGQFN53H0IDSY0p3H78MuPfmNw/exec",{
 
 method:"POST",
 headers:{
@@ -65,3 +65,4 @@ console.log(error);
 });
 
 }
+
