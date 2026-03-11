@@ -1,117 +1,15 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>Tempahan Bas</title>
-
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-<header>
-
-<img src="logo.jpg" class="logo">
-
-<h1>Tempahan Bas</h1>
-<h3>SM Sains Alor Gajah</h3>
-
-</header>
-
-
-<div class="nav">
-
-<a href="index.html">Menu Utama</a>
-<a href="dashboard.html">Dashboard</a>
-
-</div>
-
-
-<div class="container">
-
-<form id="borangTempahan">
-
-<label>Tarikh Mohon</label>
-<input type="date" id="tarikhMohon">
-
-<label>Aktiviti</label>
-<input type="text" id="aktiviti">
-
-<label>Tempat</label>
-<input type="text" id="tempat">
-
-<label>Nama Pemohon</label>
-<input type="text" id="nama">
-
-<label>Jawatan</label>
-<input type="text" id="jawatan">
-
-<label>Pelajar Lelaki</label>
-<input type="number" id="lelaki">
-
-<label>Pelajar Perempuan</label>
-<input type="number" id="perempuan">
-
-<label>Guru</label>
-<input type="number" id="guru">
-
-
-<label>Tarikh Perjalanan</label>
-<input type="date" id="tarikhPergi">
-
-<label>Tarikh Pulang</label>
-<input type="date" id="tarikhPulang">
-
-
-<label>Masa Pergi</label>
-<input type="time" id="masaPergi">
-
-<label>Masa Balik</label>
-<input type="time" id="masaBalik">
-
-
-<label>Kenderaan</label>
-
-<select id="kenderaan">
-
-<option>Bas</option>
-<option>Coaster</option>
-<option>Van</option>
-
-</select>
-
-
-<h3>Pemandu</h3>
-
-<input type="checkbox" id="faizal"> En. Faizal
-<br>
-<input type="checkbox" id="nuri"> En. Nuri
-
-<br><br>
-
-<button type="button" onclick="hantar()">Hantar Tempahan</button>
-
-</form>
-
-</div>
-
-
-
-<script>
-
 function hantar(){
 
-let pemandu=[]
+let pemandu=[];
 
-if(document.getElementById("faizal").checked)
-pemandu.push("En. Faizal")
+if(document.getElementById("faizal").checked){
+pemandu.push("En. Faizal");
+}
 
-if(document.getElementById("nuri").checked)
-pemandu.push("En. Nuri")
+if(document.getElementById("nuri").checked){
+pemandu.push("En. Nuri");
+}
+
 
 let data={
 
@@ -134,7 +32,8 @@ masaBalik:document.getElementById("masaBalik").value,
 kenderaan:document.getElementById("kenderaan").value,
 pemandu:pemandu.join(", ")
 
-}
+};
+
 
 fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
 
@@ -146,23 +45,24 @@ body:JSON.stringify(data)
 
 .then(()=>{
 
-alert("✅ Tempahan berjaya dihantar!")
+alert("✅ Tempahan berjaya dihantar!");
 
-document.getElementById("borangTempahan").reset()
+document.getElementById("borangTempahan").reset();
 
 setTimeout(function(){
 
-window.location.href="dashboard.html"
+window.location.href="dashboard.html";
 
-},1500)
+},1500);
 
 })
 
+.catch(err=>{
+
+alert("❌ Tempahan gagal dihantar");
+
+console.log(err);
+
+});
+
 }
-
-</script>
-
-
-</body>
-
-</html>
