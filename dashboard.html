@@ -59,13 +59,14 @@
 
 <script>
 
-const URL="https://script.google.com/macros/s/AKfycbwrdgim3pmI1lo2CXzxRPqSu5sNpyzaFqsgdiX6gciEmM8yRQgSOZCEs1BhEmr8AY3YrA/exec";
+const URL="https://script.google.com/macros/s/AKfycbx8M3jZXiBj4tSbz5mtVOnJ57TuxtmfzCCgIULTIRFKWmedtQAl_sX_F_nVjlR7Dzs4Zg/exec";
 
 
-function downloadPDF(item){https://script.google.com/macros/s/AKfycbwrdgim3pmI1lo2CXzxRPqSu5sNpyzaFqsgdiX6gciEmM8yRQgSOZCEs1BhEmr8AY3YrA/exec
+function downloadPDF(item){
+
 const { jsPDF } = window.jspdf;
 
-const doc=new jsPDF();
+const doc = new jsPDF();
 
 doc.setFontSize(16);
 doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
@@ -73,18 +74,12 @@ doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
 doc.setFontSize(12);
 
 doc.text("Sekolah : SM Sains Alor Gajah",20,40);
-
-doc.text("Nama Pemohon : "+item.nama,20,60);
-
-doc.text("Tarikh Pergi : "+item.tarikhPergi,20,70);
-
-doc.text("Tarikh Pulang : "+item.tarikhPulang,20,80);
-
-doc.text("Tujuan : "+item.aktiviti,20,90);
-
-doc.text("Pemandu : "+item.pemandu,20,100);
-
-doc.text("Kenderaan : "+item.kenderaan,20,110);
+doc.text("Nama Pemohon : " + item.nama,20,60);
+doc.text("Tarikh Pergi : " + item.tarikhPergi,20,70);
+doc.text("Tarikh Pulang : " + item.tarikhPulang,20,80);
+doc.text("Tujuan : " + item.aktiviti,20,90);
+doc.text("Pemandu : " + item.pemandu,20,100);
+doc.text("Kenderaan : " + item.kenderaan,20,110);
 
 doc.save("borang_tempahan_bas.pdf");
 
@@ -99,17 +94,12 @@ data.forEach(function(item){
 
 html+="<tr>";
 
-html+="<td>"+item.nama+"</td>";
-
+html+="<td>"+(item.nama || "-")+"</td>";
 html+="<td>"+(item.tarikhPergi || "-")+"</td>";
-
 html+="<td>"+(item.tarikhPulang || "-")+"</td>";
-
-html+="<td>"+item.aktiviti+"</td>";
-
-html+="<td>"+item.pemandu+"</td>";
-
-html+="<td>"+item.kenderaan+"</td>";
+html+="<td>"+(item.aktiviti || "-")+"</td>";
+html+="<td>"+(item.pemandu || "-")+"</td>";
+html+="<td>"+(item.kenderaan || "-")+"</td>";
 
 html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
 
@@ -126,7 +116,7 @@ function loadDashboard(){
 
 var script=document.createElement("script");
 
-script.src=URL+"?callback=showData";
+script.src = URL + "?callback=showData";
 
 document.body.appendChild(script);
 
@@ -138,7 +128,4 @@ loadDashboard();
 
 
 </body>
-
 </html>
-
-
