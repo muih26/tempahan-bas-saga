@@ -23,7 +23,6 @@
 
 </header>
 
-
 <div class="menu">
 
 <a href="index.html">Menu Utama</a>
@@ -31,13 +30,11 @@
 
 </div>
 
-
 <table border="1" width="95%" align="center">
 
 <thead>
 
 <tr>
-
 <th>Nama Pemohon</th>
 <th>Tarikh Pergi</th>
 <th>Tarikh Pulang</th>
@@ -45,7 +42,6 @@
 <th>Pemandu</th>
 <th>Kenderaan</th>
 <th>PDF</th>
-
 </tr>
 
 </thead>
@@ -56,17 +52,29 @@
 
 </table>
 
-
 <script>
 
-const URL="https://script.google.com/macros/s/AKfycbx8M3jZXiBj4tSbz5mtVOnJ57TuxtmfzCCgIULTIRFKWmedtQAl_sX_F_nVjlR7Dzs4Zg/exec";
+const URL="https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec";
 
+function formatTarikh(t){
+
+if(!t) return "-";
+
+let d=new Date(t);
+
+let day=("0"+d.getDate()).slice(-2);
+let month=("0"+(d.getMonth()+1)).slice(-2);
+let year=d.getFullYear();
+
+return day+"/"+month+"/"+year;
+
+}
 
 function downloadPDF(item){
 
 const { jsPDF } = window.jspdf;
 
-const doc = new jsPDF();
+const doc=new jsPDF();
 
 doc.setFontSize(16);
 doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
@@ -74,17 +82,22 @@ doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
 doc.setFontSize(12);
 
 doc.text("Sekolah : SM Sains Alor Gajah",20,40);
-doc.text("Nama Pemohon : " + item.nama,20,60);
-doc.text("Tarikh Pergi : " + item.tarikhPergi,20,70);
-doc.text("Tarikh Pulang : " + item.tarikhPulang,20,80);
-doc.text("Tujuan : " + item.aktiviti,20,90);
-doc.text("Pemandu : " + item.pemandu,20,100);
-doc.text("Kenderaan : " + item.kenderaan,20,110);
+
+doc.text("Nama Pemohon : "+item.nama,20,60);
+
+doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,70);
+
+doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,80);
+
+doc.text("Tujuan : "+item.aktiviti,20,90);
+
+doc.text("Pemandu : "+item.pemandu,20,100);
+
+doc.text("Kenderaan : "+item.kenderaan,20,110);
 
 doc.save("borang_tempahan_bas.pdf");
 
 }
-
 
 function showData(data){
 
@@ -94,12 +107,12 @@ data.forEach(function(item){
 
 html+="<tr>";
 
-html+="<td>"+(item.nama || "-")+"</td>";
-html+="<td>"+(item.tarikhPergi || "-")+"</td>";
-html+="<td>"+(item.tarikhPulang || "-")+"</td>";
-html+="<td>"+(item.aktiviti || "-")+"</td>";
-html+="<td>"+(item.pemandu || "-")+"</td>";
-html+="<td>"+(item.kenderaan || "-")+"</td>";
+html+="<td>"+item.nama+"</td>";
+html+="<td>"+formatTarikh(item.tarikhPergi)+"</td>";
+html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
+html+="<td>"+item.aktiviti+"</td>";
+html+="<td>"+item.pemandu+"</td>";
+html+="<td>"+item.kenderaan+"</td>";
 
 html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
 
@@ -111,12 +124,11 @@ document.getElementById("dataTempahan").innerHTML=html;
 
 }
 
-
 function loadDashboard(){
 
 var script=document.createElement("script");
 
-script.src = URL + "?callback=showData";
+script.src=URL+"?callback=showData";
 
 document.body.appendChild(script);
 
@@ -125,7 +137,6 @@ document.body.appendChild(script);
 loadDashboard();
 
 </script>
-
 
 </body>
 </html>
