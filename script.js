@@ -36,17 +36,10 @@ pemandu:pemandu.join(", ")
 fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
 
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-
 body:JSON.stringify(data)
 
 })
-
-.then(response=>response.json())
-
-.then(res=>{
+.then(()=>{
 
 alert("Tempahan berjaya dihantar");
 
@@ -56,6 +49,10 @@ setTimeout(function(){
 window.location.href="dashboard.html";
 },1500);
 
+})
+.catch(err=>{
+alert("Tempahan gagal");
+console.log(err);
 });
 
 }
