@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -74,25 +75,10 @@ function downloadPDF(item){
 
 const { jsPDF } = window.jspdf;
 
-const doc = new jsPDF();
-
-function formatTarikh(t){
-
-if(!t) return "-";
-
-let d=new Date(t);
-
-let day=("0"+d.getDate()).slice(-2);
-let month=("0"+(d.getMonth()+1)).slice(-2);
-let year=d.getFullYear();
-
-return day+"/"+month+"/"+year;
-
-}
-
+const doc=new jsPDF();
 
 doc.setFontSize(16);
-doc.text("BORANG PERMOHONAN KENDERAAN",105,20,null,null,"center");
+doc.text("BORANG PERMOHONAN KENDERAAN",20,20);
 
 doc.setFontSize(12);
 
@@ -110,23 +96,10 @@ doc.text("Pemandu : "+item.pemandu,20,100);
 
 doc.text("Kenderaan : "+item.kenderaan,20,110);
 
-
-
-/* TANDATANGAN */
-
-doc.line(20,200,90,200);
-doc.text("Tandatangan Pemohon",20,210);
-
-
-doc.line(120,200,190,200);
-doc.text("Tandatangan Pelulus",120,210);
-
-
-
 doc.save("borang_tempahan_bas.pdf");
 
 }
-  
+
 function showData(data){
 
 let html="";
@@ -168,4 +141,3 @@ loadDashboard();
 
 </body>
 </html>
-
