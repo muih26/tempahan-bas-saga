@@ -31,7 +31,6 @@ background-color:#ffb3b3;
 
 </header>
 
-
 <div class="menu">
 
 <a href="index.html">Menu Utama</a>
@@ -67,17 +66,21 @@ background-color:#ffb3b3;
 
 const URL="https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec";
 
+
 function formatTarikh(t){
 
 if(!t) return "-";
 
-let tarikh = t.toString().split("T")[0];
+/* paksa jadi date object */
 
-let parts = tarikh.split("-");
+let d=new Date(t);
 
-return parts[2]+"/"+parts[1]+"/"+parts[0];
+/* format dd/mm/yyyy */
+
+return d.toLocaleDateString("en-GB");
 
 }
+
 
 
 function detectClash(data,index){
@@ -127,11 +130,17 @@ doc.text("BORANG TEMPAHAN BAS",20,20);
 doc.setFontSize(12);
 
 doc.text("Sekolah : SM Sains Alor Gajah",20,40);
+
 doc.text("Nama Pemohon : "+item.nama,20,60);
+
 doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,70);
+
 doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,80);
+
 doc.text("Tujuan : "+item.aktiviti,20,90);
+
 doc.text("Pemandu : "+item.pemandu,20,100);
+
 doc.text("Kenderaan : "+item.kenderaan,20,110);
 
 doc.save("tempahan_bas.pdf");
@@ -139,9 +148,10 @@ doc.save("tempahan_bas.pdf");
 }
 
 
+
 function showData(data){
 
-/* SUSUN IKUT TARIKH PERGI */
+/* susun ikut tarikh terbaru */
 
 data.sort(function(a,b){
 
@@ -154,15 +164,20 @@ let html="";
 
 data.forEach(function(item,index){
 
-let clash = detectClash(data,index);
+let clash=detectClash(data,index);
 
 html+="<tr class='"+(clash?"clash":"")+"'>";
 
 html+="<td>"+item.nama+"</td>";
+
 html+="<td>"+formatTarikh(item.tarikhPergi)+"</td>";
+
 html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
+
 html+="<td>"+item.aktiviti+"</td>";
+
 html+="<td>"+item.pemandu+"</td>";
+
 html+="<td>"+item.kenderaan+"</td>";
 
 html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
@@ -174,6 +189,7 @@ html+="</tr>";
 document.getElementById("dataTempahan").innerHTML=html;
 
 }
+
 
 
 function loadDashboard(){
