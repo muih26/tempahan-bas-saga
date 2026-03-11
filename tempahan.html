@@ -2,31 +2,9 @@
 <html>
 
 <head>
-
 <meta charset="UTF-8">
 <title>Tempahan Bas</title>
-
 <link rel="stylesheet" href="style.css">
-
-<style>
-
-.opsyen{
-width:100%;
-max-width:400px;
-margin-bottom:25px;
-}
-
-.opsyen-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:8px 0;
-border-bottom:1px solid #ddd;
-font-size:16px;
-}
-
-</style>
-
 </head>
 
 <body>
@@ -40,14 +18,12 @@ font-size:16px;
 
 </header>
 
-
 <div class="menu">
 
 <a href="index.html">Menu Utama</a>
 <a href="dashboard.html">Dashboard</a>
 
 </div>
-
 
 <div class="container">
 
@@ -89,131 +65,29 @@ font-size:16px;
 <label>Masa Balik</label>
 <input type="time" id="masaBalik">
 
+<label>Kenderaan</label>
 
-<h3>Kenderaan</h3>
-
-<div class="opsyen">
-
-<div class="opsyen-row">
-<span>Bas</span>
-<input type="checkbox" id="bas">
-</div>
-
-<div class="opsyen-row">
-<span>Coaster</span>
-<input type="checkbox" id="coaster">
-</div>
-
-<div class="opsyen-row">
-<span>Van</span>
-<input type="checkbox" id="van">
-</div>
-
-</div>
-
-
+<select id="kenderaan">
+<option>Bas</option>
+<option>Coaster</option>
+<option>Van</option>
+</select>
 
 <h3>Pemandu</h3>
 
-<div class="opsyen">
+<input type="checkbox" id="faizal"> En. Faizal
+<br>
+<input type="checkbox" id="nuri"> En. Nuri
 
-<div class="opsyen-row">
-<span>En. Faizal</span>
-<input type="checkbox" id="faizal">
-</div>
+<br><br>
 
-<div class="opsyen-row">
-<span>En. Nuri</span>
-<input type="checkbox" id="nuri">
-</div>
-
-</div>
-
-
-<button type="button" onclick="hantarTempahan()">Hantar Tempahan</button>
+<button type="button" onclick="hantar()">Hantar Tempahan</button>
 
 </form>
 
 </div>
 
-
-
-<script>
-
-function hantarTempahan(){
-
-let pemandu=[];
-let kenderaan=[];
-
-if(document.getElementById("faizal").checked){
-pemandu.push("En. Faizal");
-}
-
-if(document.getElementById("nuri").checked){
-pemandu.push("En. Nuri");
-}
-
-if(document.getElementById("bas").checked){
-kenderaan.push("Bas");
-}
-
-if(document.getElementById("coaster").checked){
-kenderaan.push("Coaster");
-}
-
-if(document.getElementById("van").checked){
-kenderaan.push("Van");
-}
-
-let data={
-
-tarikhMohon:document.getElementById("tarikhMohon").value,
-aktiviti:document.getElementById("aktiviti").value,
-tempat:document.getElementById("tempat").value,
-nama:document.getElementById("nama").value,
-jawatan:document.getElementById("jawatan").value,
-
-lelaki:document.getElementById("lelaki").value,
-perempuan:document.getElementById("perempuan").value,
-guru:document.getElementById("guru").value,
-
-tarikhPergi:document.getElementById("tarikhPergi").value,
-tarikhPulang:document.getElementById("tarikhPulang").value,
-
-masaPergi:document.getElementById("masaPergi").value,
-masaBalik:document.getElementById("masaBalik").value,
-
-kenderaan:kenderaan.join(", "),
-pemandu:pemandu.join(", ")
-
-};
-
-
-fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
-
-method:"POST",
-mode:"no-cors",
-body:JSON.stringify(data)
-
-})
-
-.then(()=>{
-
-alert("Tempahan berjaya dihantar");
-
-document.getElementById("borangTempahan").reset();
-
-setTimeout(function(){
-
-window.location.href="dashboard.html";
-
-},1500);
-
-});
-
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
