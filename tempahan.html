@@ -2,9 +2,29 @@
 <html>
 
 <head>
+
 <meta charset="UTF-8">
 <title>Tempahan Bas</title>
+
 <link rel="stylesheet" href="style.css">
+
+<style>
+
+.opsyen{
+width:400px;
+margin-bottom:20px;
+}
+
+.opsyen-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:6px 0;
+border-bottom:1px solid #ddd;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -18,12 +38,14 @@
 
 </header>
 
+
 <div class="menu">
 
 <a href="index.html">Menu Utama</a>
 <a href="dashboard.html">Dashboard</a>
 
 </div>
+
 
 <div class="container">
 
@@ -65,29 +87,56 @@
 <label>Masa Balik</label>
 <input type="time" id="masaBalik">
 
-<label>Kenderaan</label>
 
-<select id="kenderaan">
-<option>Bas</option>
-<option>Coaster</option>
-<option>Van</option>
-</select>
+<h3>Kenderaan</h3>
+
+<div class="opsyen">
+
+<div class="opsyen-row">
+<span>Bas</span>
+<input type="checkbox" id="bas">
+</div>
+
+<div class="opsyen-row">
+<span>Coaster</span>
+<input type="checkbox" id="coaster">
+</div>
+
+<div class="opsyen-row">
+<span>Van</span>
+<input type="checkbox" id="van">
+</div>
+
+</div>
+
+
 
 <h3>Pemandu</h3>
 
-<input type="checkbox" id="faizal"> En. Faizal
-<br>
-<input type="checkbox" id="nuri"> En. Nuri
+<div class="opsyen">
 
-<br><br>
+<div class="opsyen-row">
+<span>En. Faizal</span>
+<input type="checkbox" id="faizal">
+</div>
 
-<button type="button" onclick="hantar()">Hantar Tempahan</button>
+<div class="opsyen-row">
+<span>En. Nuri</span>
+<input type="checkbox" id="nuri">
+</div>
+
+</div>
+
+
+<button type="button" onclick="hantarTempahan()">Hantar Tempahan</button>
 
 </form>
 
 </div>
 
+
 <script src="script.js"></script>
 
 </body>
+
 </html>
