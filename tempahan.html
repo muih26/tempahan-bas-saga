@@ -10,15 +10,18 @@
 
 <style>
 
-.pilihan{
+.opsyen{
+width:100%;
+max-width:400px;
 margin-bottom:25px;
 }
 
-.pilihan-item{
+.opsyen-row{
 display:flex;
+justify-content:space-between;
 align-items:center;
-gap:10px;
-margin:8px 0;
+padding:8px 0;
+border-bottom:1px solid #ddd;
 font-size:16px;
 }
 
@@ -89,22 +92,22 @@ font-size:16px;
 
 <h3>Kenderaan</h3>
 
-<div class="pilihan">
+<div class="opsyen">
 
-<label class="pilihan-item">
-<input type="checkbox" id="bas">
+<div class="opsyen-row">
 <span>Bas</span>
-</label>
+<input type="checkbox" id="bas">
+</div>
 
-<label class="pilihan-item">
-<input type="checkbox" id="coaster">
+<div class="opsyen-row">
 <span>Coaster</span>
-</label>
+<input type="checkbox" id="coaster">
+</div>
 
-<label class="pilihan-item">
-<input type="checkbox" id="van">
+<div class="opsyen-row">
 <span>Van</span>
-</label>
+<input type="checkbox" id="van">
+</div>
 
 </div>
 
@@ -112,17 +115,17 @@ font-size:16px;
 
 <h3>Pemandu</h3>
 
-<div class="pilihan">
+<div class="opsyen">
 
-<label class="pilihan-item">
-<input type="checkbox" id="faizal">
+<div class="opsyen-row">
 <span>En. Faizal</span>
-</label>
+<input type="checkbox" id="faizal">
+</div>
 
-<label class="pilihan-item">
-<input type="checkbox" id="nuri">
+<div class="opsyen-row">
 <span>En. Nuri</span>
-</label>
+<input type="checkbox" id="nuri">
+</div>
 
 </div>
 
