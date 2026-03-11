@@ -8,6 +8,21 @@
 
 <link rel="stylesheet" href="style.css">
 
+<style>
+
+.checkbox-group{
+margin-bottom:20px;
+}
+
+.checkbox-item{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:8px;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -70,21 +85,46 @@
 <label>Masa Balik</label>
 <input type="time" id="masaBalik">
 
-<label>Kenderaan</label>
 
-<select id="kenderaan">
-<option>Bas</option>
-<option>Coaster</option>
-<option>Van</option>
-</select>
+<h3>Kenderaan</h3>
+
+<div class="checkbox-group">
+
+<div class="checkbox-item">
+<input type="checkbox" id="bas">
+<label>Bas</label>
+</div>
+
+<div class="checkbox-item">
+<input type="checkbox" id="coaster">
+<label>Coaster</label>
+</div>
+
+<div class="checkbox-item">
+<input type="checkbox" id="van">
+<label>Van</label>
+</div>
+
+</div>
+
+
 
 <h3>Pemandu</h3>
 
-<input type="checkbox" id="faizal"> En. Faizal
-<br>
-<input type="checkbox" id="nuri"> En. Nuri
+<div class="checkbox-group">
 
-<br><br>
+<div class="checkbox-item">
+<input type="checkbox" id="faizal">
+<label>En. Faizal</label>
+</div>
+
+<div class="checkbox-item">
+<input type="checkbox" id="nuri">
+<label>En. Nuri</label>
+</div>
+
+</div>
+
 
 <button type="button" onclick="hantarTempahan()">Hantar Tempahan</button>
 
@@ -98,6 +138,7 @@
 function hantarTempahan(){
 
 let pemandu=[];
+let kenderaan=[];
 
 if(document.getElementById("faizal").checked){
 pemandu.push("En. Faizal");
@@ -105,6 +146,18 @@ pemandu.push("En. Faizal");
 
 if(document.getElementById("nuri").checked){
 pemandu.push("En. Nuri");
+}
+
+if(document.getElementById("bas").checked){
+kenderaan.push("Bas");
+}
+
+if(document.getElementById("coaster").checked){
+kenderaan.push("Coaster");
+}
+
+if(document.getElementById("van").checked){
+kenderaan.push("Van");
 }
 
 let data={
@@ -125,10 +178,11 @@ tarikhPulang:document.getElementById("tarikhPulang").value,
 masaPergi:document.getElementById("masaPergi").value,
 masaBalik:document.getElementById("masaBalik").value,
 
-kenderaan:document.getElementById("kenderaan").value,
+kenderaan:kenderaan.join(", "),
 pemandu:pemandu.join(", ")
 
 };
+
 
 fetch("https://script.google.com/macros/s/AKfycbxaEm7o8hIe--aTlcw44V7sn_ulfQuOm8Y03z04veoqX__XHzrkWsHHd18S53hSjzOi/exec",{
 
