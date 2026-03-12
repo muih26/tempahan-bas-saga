@@ -123,7 +123,6 @@ background:#125aa0;
 </div>
 
 
-
 <h3>Pemandu</h3>
 
 <div class="opsyen">
@@ -141,7 +140,7 @@ background:#125aa0;
 </div>
 
 
-<button type="button" onclick="hantarTempahan()">Hantar Tempahan</button>
+<button type="submit">Hantar Tempahan</button>
 
 </form>
 
@@ -152,8 +151,9 @@ background:#125aa0;
 
 const URL="https://script.google.com/macros/s/AKfycby6wnDHTMcQpyQnEHbwqtX5jbj45z_vvORbYQa7MdOQDUcs7I5bYYQaHcEK7lJGBzgdRg/exec";
 
+document.getElementById("borangTempahan").addEventListener("submit", function(e){
 
-function hantarTempahan(){
+e.preventDefault();
 
 let kenderaan=[];
 let pemandu=[];
@@ -177,6 +177,7 @@ pemandu.push("En. Faizal");
 if(document.getElementById("nuri").checked){
 pemandu.push("En. Nuri");
 }
+
 
 let data={
 
@@ -202,6 +203,7 @@ pemandu:pemandu.join(", ")
 
 };
 
+
 fetch(URL,{
 method:"POST",
 body:JSON.stringify(data)
@@ -213,16 +215,24 @@ alert("Tempahan berjaya dihantar");
 
 document.getElementById("borangTempahan").reset();
 
+/* pergi ke dashboard */
+
+setTimeout(function(){
+
+window.location.href="dashboard.html";
+
+},1000);
+
 })
 .catch(err=>{
 
-alert("Tempahan gagal dihantar");
-
 console.error(err);
+
+alert("Tempahan gagal dihantar");
 
 });
 
-}
+});
 
 </script>
 
