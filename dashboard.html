@@ -6,10 +6,8 @@
 <meta charset="UTF-8">
 <title>Dashboard Tempahan Bas</title>
 
-<!-- warna tab browser -->
 <meta name="theme-color" content="#1976d2">
 
-<!-- favicon -->
 <link rel="icon" href="logo.jpg">
 
 <link rel="stylesheet" href="style.css">
@@ -208,11 +206,11 @@ doc.save("tempahan_bas.pdf");
 
 function showData(data){
 
-/* susun tarikh pergi menaik */
+/* SUSUN TARIKH MENURUN (TERBARU DI ATAS) */
 
 data.sort(function(a,b){
 
-return new Date(a.tarikhPergi)-new Date(b.tarikhPergi);
+return new Date(b.tarikhPergi) - new Date(a.tarikhPergi);
 
 });
 
