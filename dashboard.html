@@ -28,7 +28,6 @@ background:var(--warna-background);
 }
 
 header{
-background:var(--warna-background);
 text-align:center;
 padding:15px;
 }
@@ -38,17 +37,15 @@ height:70px;
 }
 
 .menu{
-background:var(--warna-background);
 text-align:center;
-padding:12px;
+padding:10px;
 }
 
 .menu a{
 color:black;
+margin:0 15px;
 text-decoration:none;
-margin:0 20px;
 font-weight:bold;
-font-size:16px;
 }
 
 .section-title{
@@ -58,13 +55,12 @@ width:90%;
 margin:25px auto 0 auto;
 padding:10px;
 border-radius:5px 5px 0 0;
-font-weight:bold;
 }
 
 table{
 border-collapse:collapse;
 width:90%;
-margin:0 auto 25px auto;
+margin:auto;
 background:white;
 }
 
@@ -92,30 +88,6 @@ button:hover{
 background:var(--warna-hover);
 }
 
-.tersedia{
-color:green;
-font-weight:bold;
-}
-
-.ditempah{
-color:red;
-font-weight:bold;
-}
-
-.kalendar{
-width:80%;
-margin:auto;
-background:white;
-padding:10px;
-}
-
-.kalendar li{
-padding:8px;
-border-bottom:1px solid #ddd;
-}
-
-/* highlight */
-
 .today{
 background:#ffcccc;
 }
@@ -128,7 +100,12 @@ background:#fff3cd;
 background:#f8d7da;
 }
 
-/* legend */
+.kalendar{
+width:80%;
+margin:auto;
+background:white;
+padding:10px;
+}
 
 .legend{
 width:90%;
@@ -136,11 +113,6 @@ margin:auto;
 background:white;
 padding:10px;
 border:1px solid #ddd;
-}
-
-.legend span{
-margin-right:20px;
-font-weight:bold;
 }
 
 </style>
@@ -167,14 +139,13 @@ font-weight:bold;
 </div>
 
 
-
 <div class="section-title">Senarai Tempahan</div>
 
 <div class="legend">
 
-<span style="color:red;">■</span> Tempahan Hari Ini
+<span style="color:red;">■</span> Hari Ini
 &nbsp;&nbsp;
-<span style="color:#b58900;">■</span> Tempahan Dalam 7 Hari
+<span style="color:#b58900;">■</span> Dalam 7 Hari
 &nbsp;&nbsp;
 <span style="color:#a94442;">■</span> Pertindihan Tempahan
 
@@ -183,6 +154,7 @@ font-weight:bold;
 <table>
 
 <thead>
+
 <tr>
 <th>Nama Pemohon</th>
 <th>Tarikh Pergi</th>
@@ -191,12 +163,12 @@ font-weight:bold;
 <th>Kenderaan</th>
 <th>PDF</th>
 </tr>
+
 </thead>
 
 <tbody id="dataTempahan"></tbody>
 
 </table>
-
 
 
 <div class="section-title">Status Kenderaan</div>
@@ -217,21 +189,23 @@ font-weight:bold;
 </table>
 
 
-
 <div class="section-title">Kalendar Tempahan</div>
 
 <ul id="kalendarTempahan" class="kalendar"></ul>
-
 
 
 <script>
 
 const URL="https://script.google.com/macros/s/AKfycby6wnDHTMcQpyQnEHbwqtX5jbj45z_vvORbYQa7MdOQDUcs7I5bYYQaHcEK7lJGBzgdRg/exec";
 
+
 function formatTarikh(t){
 let d=new Date(t);
 return d.toLocaleDateString("en-GB");
 }
+
+
+/* ================= PDF BORANG ================= */
 
 function downloadPDF(item){
 
@@ -239,21 +213,51 @@ const { jsPDF } = window.jspdf;
 
 const doc=new jsPDF();
 
-doc.setFontSize(16);
-doc.text("BORANG TEMPAHAN BAS",20,20);
+doc.addImage("logo.jpg","JPEG",90,10,30,30);
 
-doc.setFontSize(12);
+doc.setFontSize(18);
+doc.text("BORANG TEMPAHAN BAS",105,50,{align:"center"});
 
-doc.text("Nama Pemohon : "+item.nama,20,60);
-doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,70);
-doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,80);
-doc.text("Tujuan : "+item.aktiviti,20,90);
-doc.text("Kenderaan : "+item.kenderaan,20,100);
+doc.setFontSize(14);
+doc.text("SM SAINS ALOR GAJAH",105,58,{align:"center"});
 
-doc.save("tempahan_bas.pdf");
+let today=new Date();
+let tarikhMohon=today.toLocaleDateString("en-GB");
+
+let startY=75;
+let rowHeight=10;
+
+function row(label,value,y){
+
+doc.rect(20,y,70,rowHeight);
+doc.rect(90,y,100,rowHeight);
+
+doc.text(label,22,y+7);
+doc.text(value?String(value):"-",92,y+7);
 
 }
 
+row("Nama Pemohon",item.nama,startY);
+row("Tarikh Permohonan",tarikhMohon,startY+10);
+row("Tarikh Pergi",formatTarikh(item.tarikhPergi),startY+20);
+row("Tarikh Pulang",formatTarikh(item.tarikhPulang),startY+30);
+row("Tujuan",item.aktiviti,startY+40);
+row("Kenderaan",item.kenderaan,startY+50);
+
+doc.line(30,180,80,180);
+doc.text("Tandatangan Pemohon",30,188);
+
+doc.line(130,180,180,180);
+doc.text("Tandatangan Pelulus",130,188);
+
+doc.text("Tarikh: "+tarikhMohon,30,200);
+
+doc.save("Tempahan_Bas_SM_SAGA.pdf");
+
+}
+
+
+/* ================= PAPAR DATA ================= */
 
 function showData(data){
 
@@ -283,8 +287,6 @@ kelas="today";
 else if(diff<=7 && diff>0){
 kelas="soon";
 }
-
-/* detect clash */
 
 for(let i=0;i<data.length;i++){
 
@@ -338,9 +340,9 @@ htmlStatus+="<tr>";
 
 htmlStatus+="<td>"+tarikh+"</td>";
 
-htmlStatus+="<td class='"+(status[tarikh].Bas?"tersedia":"ditempah")+"'>"+(status[tarikh].Bas?"✅":"❌")+"</td>";
-htmlStatus+="<td class='"+(status[tarikh].Van?"tersedia":"ditempah")+"'>"+(status[tarikh].Van?"✅":"❌")+"</td>";
-htmlStatus+="<td class='"+(status[tarikh].Coaster?"tersedia":"ditempah")+"'>"+(status[tarikh].Coaster?"✅":"❌")+"</td>";
+htmlStatus+="<td>"+(status[tarikh].Bas?"✅":"❌")+"</td>";
+htmlStatus+="<td>"+(status[tarikh].Van?"✅":"❌")+"</td>";
+htmlStatus+="<td>"+(status[tarikh].Coaster?"✅":"❌")+"</td>";
 
 htmlStatus+="</tr>";
 
@@ -351,6 +353,7 @@ document.getElementById("statusTempahan").innerHTML=htmlStatus;
 document.getElementById("kalendarTempahan").innerHTML=kalendar;
 
 }
+
 
 function loadDashboard(){
 
