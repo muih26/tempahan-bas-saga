@@ -2,49 +2,28 @@ const URL="https://script.google.com/macros/s/AKfycby6wnDHTMcQpyQnEHbwqtX5jbj45z
 
 function hantarTempahan(){
 
-var data={
+let data = {
 
-tarikhMohon:new Date().toISOString(),
-
-aktiviti:document.getElementById("aktiviti").value,
-tempat:document.getElementById("tempat").value,
-
-nama:document.getElementById("nama").value,
-jawatan:document.getElementById("jawatan").value,
-
-pelajarLelaki:document.getElementById("lelaki").value,
-pelajarPerempuan:document.getElementById("perempuan").value,
-guru:document.getElementById("guru").value,
-
-tarikhPergi:document.getElementById("tarikhPergi").value,
-tarikhPulang:document.getElementById("tarikhPulang").value,
-
-masaPergi:document.getElementById("masaPergi").value,
-masaBalik:document.getElementById("masaBalik").value,
-
-kenderaan:document.querySelector('input[name="kenderaan"]:checked')?.value || "",
-kenderaanLain:document.getElementById("kenderaanLain").value,
-
-pemandu:document.querySelector('input[name="pemandu"]:checked')?.value || ""
+nama: document.getElementById("nama").value,
+aktiviti: document.getElementById("aktiviti").value,
+tarikhPergi: document.getElementById("tarikhPergi").value,
+tarikhPulang: document.getElementById("tarikhPulang").value,
+kenderaan: document.getElementById("kenderaan").value,
+pemandu: document.getElementById("pemandu").value
 
 };
 
-
 fetch(URL,{
-
 method:"POST",
 body:JSON.stringify(data)
-
 })
-.then(res=>res.json())
-.then(res=>{
+.then(response=>response.text())
+.then(data=>{
 
 alert("Tempahan berjaya dihantar");
 
-window.location.href="dashboard.html";
-
 })
-.catch(err=>{
+.catch(error=>{
 
 alert("Tempahan gagal");
 
