@@ -27,8 +27,6 @@ margin:0;
 background:var(--warna-background);
 }
 
-/* HEADER */
-
 header{
 background:var(--warna-background);
 text-align:center;
@@ -38,8 +36,6 @@ padding:15px;
 .logo{
 height:70px;
 }
-
-/* MENU */
 
 .menu{
 background:var(--warna-background);
@@ -55,8 +51,6 @@ font-weight:bold;
 font-size:16px;
 }
 
-/* TAB TAJUK */
-
 .section-title{
 background:var(--warna-tab);
 color:white;
@@ -66,8 +60,6 @@ padding:10px;
 border-radius:5px 5px 0 0;
 font-weight:bold;
 }
-
-/* TABLE */
 
 table{
 border-collapse:collapse;
@@ -87,8 +79,6 @@ background:#9e9e9e;
 color:white;
 }
 
-/* BUTTON */
-
 button{
 background:var(--warna-button);
 color:white;
@@ -102,8 +92,6 @@ button:hover{
 background:var(--warna-hover);
 }
 
-/* STATUS */
-
 .tersedia{
 color:green;
 font-weight:bold;
@@ -113,8 +101,6 @@ font-weight:bold;
 color:red;
 font-weight:bold;
 }
-
-/* KALENDAR */
 
 .kalendar{
 width:80%;
@@ -128,7 +114,7 @@ padding:8px;
 border-bottom:1px solid #ddd;
 }
 
-/* HIGHLIGHT TEMPAHAN */
+/* highlight */
 
 .today{
 background:#ffcccc;
@@ -136,6 +122,25 @@ background:#ffcccc;
 
 .soon{
 background:#fff3cd;
+}
+
+.clash{
+background:#f8d7da;
+}
+
+/* legend */
+
+.legend{
+width:90%;
+margin:auto;
+background:white;
+padding:10px;
+border:1px solid #ddd;
+}
+
+.legend span{
+margin-right:20px;
+font-weight:bold;
 }
 
 </style>
@@ -162,7 +167,18 @@ background:#fff3cd;
 </div>
 
 
+
 <div class="section-title">Senarai Tempahan</div>
+
+<div class="legend">
+
+<span style="color:red;">■</span> Tempahan Hari Ini
+&nbsp;&nbsp;
+<span style="color:#b58900;">■</span> Tempahan Dalam 7 Hari
+&nbsp;&nbsp;
+<span style="color:#a94442;">■</span> Pertindihan Tempahan
+
+</div>
 
 <table>
 
@@ -238,6 +254,7 @@ doc.save("tempahan_bas.pdf");
 
 }
 
+
 function showData(data){
 
 data.sort(function(a,b){
@@ -251,7 +268,7 @@ let kalendar="";
 let today=new Date();
 today.setHours(0,0,0,0);
 
-data.forEach(function(item){
+data.forEach(function(item,index){
 
 let tripDate=new Date(item.tarikhPergi);
 tripDate.setHours(0,0,0,0);
@@ -265,6 +282,25 @@ kelas="today";
 }
 else if(diff<=7 && diff>0){
 kelas="soon";
+}
+
+/* detect clash */
+
+for(let i=0;i<data.length;i++){
+
+if(i!==index){
+
+let other=data[i];
+
+if(
+formatTarikh(item.tarikhPergi)===formatTarikh(other.tarikhPergi)
+&& item.kenderaan===other.kenderaan
+){
+kelas="clash";
+}
+
+}
+
 }
 
 html+="<tr class='"+kelas+"'>";
