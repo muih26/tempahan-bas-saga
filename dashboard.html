@@ -14,8 +14,6 @@
 
 <style>
 
-/* WARNA GLOBAL */
-
 :root{
 --warna-background:#e0e0e0;
 --warna-tab:#757575;
@@ -57,7 +55,7 @@ font-weight:bold;
 font-size:16px;
 }
 
-/* TAJUK SECTION */
+/* TAB TAJUK */
 
 .section-title{
 background:var(--warna-tab);
@@ -204,15 +202,10 @@ border-bottom:1px solid #ddd;
 
 const URL="https://script.google.com/macros/s/AKfycby6wnDHTMcQpyQnEHbwqtX5jbj45z_vvORbYQa7MdOQDUcs7I5bYYQaHcEK7lJGBzgdRg/exec";
 
-
 function formatTarikh(t){
-
 let d=new Date(t);
-
 return d.toLocaleDateString("en-GB");
-
 }
-
 
 function downloadPDF(item){
 
@@ -238,10 +231,15 @@ doc.save("tempahan_bas.pdf");
 
 function showData(data){
 
-/* SUSUN TARIKH MENURUN */
+/* SUSUN TARIKH MENURUN (BULAN + HARI) */
 
 data.sort(function(a,b){
-return new Date(b.tarikhPergi)-new Date(a.tarikhPergi);
+
+let A = new Date(a.tarikhPergi).getTime();
+let B = new Date(b.tarikhPergi).getTime();
+
+return B - A;
+
 });
 
 
@@ -294,22 +292,17 @@ htmlStatus+="<tr>";
 
 htmlStatus+="<td>"+tarikh+"</td>";
 
-htmlStatus+="<td class='"+(status[tarikh].Bas?"tersedia":"ditempah")+"'>"
-+(status[tarikh].Bas?"✅":"❌")+"</td>";
+htmlStatus+="<td class='"+(status[tarikh].Bas?"tersedia":"ditempah")+"'>"+(status[tarikh].Bas?"✅":"❌")+"</td>";
 
-htmlStatus+="<td class='"+(status[tarikh].Van?"tersedia":"ditempah")+"'>"
-+(status[tarikh].Van?"✅":"❌")+"</td>";
+htmlStatus+="<td class='"+(status[tarikh].Van?"tersedia":"ditempah")+"'>"+(status[tarikh].Van?"✅":"❌")+"</td>";
 
-htmlStatus+="<td class='"+(status[tarikh].Coaster?"tersedia":"ditempah")+"'>"
-+(status[tarikh].Coaster?"✅":"❌")+"</td>";
+htmlStatus+="<td class='"+(status[tarikh].Coaster?"tersedia":"ditempah")+"'>"+(status[tarikh].Coaster?"✅":"❌")+"</td>";
 
 htmlStatus+="</tr>";
 
 }
 
 document.getElementById("statusTempahan").innerHTML=htmlStatus;
-
-
 
 document.getElementById("kalendarTempahan").innerHTML=kalendar;
 
