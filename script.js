@@ -1,51 +1,19 @@
+const URL="https://script.google.com/macros/s/AKfycby6wnDHTMcQpyQnEHbwqtX5jbj45z_vvORbYQa7MdOQDUcs7I5bYYQaHcEK7lJGBzgdRg/exec";
+
 function hantarTempahan(){
 
-let kenderaan=[];
-let pemandu=[];
+var data={
 
+tarikhMohon:new Date().toISOString(),
 
-if(document.getElementById("bas").checked){
-kenderaan.push("Bas");
-}
-
-if(document.getElementById("coaster").checked){
-kenderaan.push("Coaster");
-}
-
-if(document.getElementById("van").checked){
-kenderaan.push("Van");
-}
-
-
-if(document.getElementById("faizal").checked){
-pemandu.push("En. Faizal");
-}
-
-if(document.getElementById("nuri").checked){
-pemandu.push("En. Nuri");
-}
-
-
-if(kenderaan.length==0){
-
-alert("Sila pilih kenderaan");
-
-return;
-
-}
-
-
-let data={
-
-tarikhMohon:document.getElementById("tarikhMohon").value,
 aktiviti:document.getElementById("aktiviti").value,
 tempat:document.getElementById("tempat").value,
 
 nama:document.getElementById("nama").value,
 jawatan:document.getElementById("jawatan").value,
 
-lelaki:document.getElementById("lelaki").value,
-perempuan:document.getElementById("perempuan").value,
+pelajarLelaki:document.getElementById("lelaki").value,
+pelajarPerempuan:document.getElementById("perempuan").value,
 guru:document.getElementById("guru").value,
 
 tarikhPergi:document.getElementById("tarikhPergi").value,
@@ -54,35 +22,32 @@ tarikhPulang:document.getElementById("tarikhPulang").value,
 masaPergi:document.getElementById("masaPergi").value,
 masaBalik:document.getElementById("masaBalik").value,
 
-kenderaan:kenderaan.join(", "),
-pemandu:pemandu.join(", ")
+kenderaan:document.querySelector('input[name="kenderaan"]:checked')?.value || "",
+kenderaanLain:document.getElementById("kenderaanLain").value,
+
+pemandu:document.querySelector('input[name="pemandu"]:checked')?.value || ""
 
 };
 
 
-fetch("https://script.google.com/macros/s/AKfycbwrPjJe1L_BfACdOtVapaqyiD7An8COl92IyGvG2EQn45dVTupi1eFZ9dt3amMn5y0flg/exec",{
+fetch(URL,{
 
 method:"POST",
-mode:"no-cors",
 body:JSON.stringify(data)
 
 })
-
-.then(()=>{
+.then(res=>res.json())
+.then(res=>{
 
 alert("Tempahan berjaya dihantar");
 
-document.getElementById("borangTempahan").reset();
-
-setTimeout(function(){
-
 window.location.href="dashboard.html";
 
-},1000);
+})
+.catch(err=>{
+
+alert("Tempahan gagal");
 
 });
 
 }
-
-
-
