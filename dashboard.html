@@ -10,6 +10,37 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+<style>
+
+table{
+border-collapse:collapse;
+margin:20px auto;
+width:90%;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#1976d2;
+color:white;
+}
+
+.tersedia{
+color:green;
+font-weight:bold;
+}
+
+.ditempah{
+color:red;
+font-weight:bold;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -31,7 +62,9 @@
 </div>
 
 
-<table border="1" width="95%" align="center">
+<h2 style="text-align:center;">Senarai Tempahan</h2>
+
+<table>
 
 <thead>
 
@@ -53,9 +86,32 @@
 </table>
 
 
+<h2 style="text-align:center;">Status Kenderaan</h2>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Tarikh</th>
+<th>Bas</th>
+<th>Van</th>
+<th>Coaster</th>
+</tr>
+
+</thead>
+
+<tbody id="statusTempahan">
+
+</tbody>
+
+</table>
+
+
 <script>
 
 const URL="https://script.google.com/macros/s/AKfycby6wnDHTMcQpyQnEHbwqtX5jbj45z_vvORbYQa7MdOQDUcs7I5bYYQaHcEK7lJGBzgdRg/exec";
+
 
 function formatTarikh(t){
 
@@ -95,6 +151,7 @@ doc.save("tempahan_bas.pdf");
 function showData(data){
 
 let html="";
+let status={};
 
 data.forEach(function(item){
 
@@ -110,9 +167,61 @@ html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF<
 
 html+="</tr>";
 
+
+let tarikh=formatTarikh(item.tarikhPergi);
+
+if(!status[tarikh]){
+
+status[tarikh]={
+
+Bas:true,
+Van:true,
+Coaster:true
+
+};
+
+}
+
+if(item.kenderaan.includes("Bas")){
+status[tarikh].Bas=false;
+}
+
+if(item.kenderaan.includes("Van")){
+status[tarikh].Van=false;
+}
+
+if(item.kenderaan.includes("Coaster")){
+status[tarikh].Coaster=false;
+}
+
 });
 
+
 document.getElementById("dataTempahan").innerHTML=html;
+
+
+let htmlStatus="";
+
+for(let tarikh in status){
+
+htmlStatus+="<tr>";
+
+htmlStatus+="<td>"+tarikh+"</td>";
+
+htmlStatus+="<td class='"+(status[tarikh].Bas?"tersedia":"ditempah")+"'>"
++(status[tarikh].Bas?"✅":"❌")+"</td>";
+
+htmlStatus+="<td class='"+(status[tarikh].Van?"tersedia":"ditempah")+"'>"
++(status[tarikh].Van?"✅":"❌")+"</td>";
+
+htmlStatus+="<td class='"+(status[tarikh].Coaster?"tersedia":"ditempah")+"'>"
++(status[tarikh].Coaster?"✅":"❌")+"</td>";
+
+htmlStatus+="</tr>";
+
+}
+
+document.getElementById("statusTempahan").innerHTML=htmlStatus;
 
 }
 
