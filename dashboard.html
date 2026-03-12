@@ -200,24 +200,53 @@ const { jsPDF } = window.jspdf;
 
 const doc = new jsPDF();
 
-doc.setFontSize(18);
-doc.text("BORANG TEMPAHAN BAS",105,20,{align:"center"});
+/* LOGO */
 
-doc.setFontSize(12);
+doc.addImage("logo.jpg","JPEG",85,10,40,30);
 
-let y=40;
+/* TAJUK */
+
+doc.setFontSize(20);
+doc.text("BORANG TEMPAHAN BAS",105,50,{align:"center"});
+
+doc.setFontSize(14);
+doc.text("SM SAINS ALOR GAJAH",105,58,{align:"center"});
+
+
+/* FORMAT TARIKH */
+
+function formatTarikh(t){
+
+if(!t) return "-";
+
+let d=new Date(t);
+
+return d.toLocaleDateString("en-GB");
+
+}
+
+
+/* JADUAL */
+
+let y = 75;
+let height = 10;
 
 function row(label,value){
 
-doc.rect(20,y,70,10);
-doc.rect(90,y,100,10);
+doc.rect(20,y,70,height);
+doc.rect(90,y,100,height);
+
+doc.setFontSize(11);
 
 doc.text(label,22,y+7);
-doc.text(value?String(value):"-",92,y+7);
+doc.text(value ? String(value) : "-",92,y+7);
 
-y+=10;
+y+=height;
 
 }
+
+
+/* DATA */
 
 row("Nama Pemohon",item.nama);
 row("Jawatan",item.jawatan);
@@ -230,13 +259,28 @@ row("Tarikh Pulang",formatTarikh(item.tarikhPulang));
 row("Tujuan",item.aktiviti);
 row("Kenderaan",item.kenderaan);
 
+
+/* ===================== */
+/* TANDATANGAN (ASAL) */
+/* ===================== */
+
 doc.line(30,220,80,220);
 doc.text("Tandatangan Pemohon",30,230);
+doc.text("( "+(item.nama || "Nama Pemohon")+" )",30,238);
 
 doc.line(130,220,180,220);
 doc.text("Tandatangan Pelulus",130,230);
+doc.text("( Pengetua / PK Pentadbiran )",130,238);
 
-doc.text("Tarikh Permohonan : "+new Date().toLocaleDateString("en-GB"),30,250);
+
+/* TARIKH PERMOHONAN */
+
+let today = new Date().toLocaleDateString("en-GB");
+
+doc.text("Tarikh Permohonan : "+today,30,250);
+
+
+/* SAVE */
 
 doc.save("Tempahan_Bas_SM_SAGA.pdf");
 
@@ -372,4 +416,5 @@ loadDashboard();
 
 </body>
 </html>
+
 
