@@ -10,11 +10,15 @@
 
 <link rel="icon" href="logo.jpg">
 
-<link rel="stylesheet" href="style.css">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
+
+/* WARNA GLOBAL */
+:root{
+--warna-dashboard:#2e7d32;
+--warna-hover:#1b5e20;
+}
 
 body{
 font-family:Arial;
@@ -22,11 +26,13 @@ margin:0;
 background:#f4f4f4;
 }
 
+/* HEADER */
+
 header{
+background:var(--warna-dashboard);
+color:white;
 text-align:center;
 padding:15px;
-background:#2e7d32;
-color:white;
 }
 
 .logo{
@@ -36,28 +42,28 @@ height:70px;
 /* MENU */
 
 .menu{
-background:#2e7d32;
+background:var(--warna-dashboard);
 text-align:center;
-padding:10px;
+padding:12px;
 }
 
 .menu a{
 color:white;
 text-decoration:none;
-margin:0 15px;
+margin:0 20px;
 font-weight:bold;
 font-size:16px;
 }
 
-/* TAB TAJUK */
+/* TAJUK SECTION */
 
 .section-title{
-background:#2e7d32;
+background:var(--warna-dashboard);
 color:white;
-padding:10px;
 width:90%;
 margin:25px auto 0 auto;
-border-radius:4px 4px 0 0;
+padding:10px;
+border-radius:5px 5px 0 0;
 font-weight:bold;
 }
 
@@ -65,35 +71,35 @@ font-weight:bold;
 
 table{
 border-collapse:collapse;
-margin:0 auto 25px auto;
 width:90%;
+margin:0 auto 25px auto;
 background:white;
 }
 
 th,td{
-border:1px solid #ccc;
+border:1px solid #ddd;
 padding:10px;
 text-align:center;
 }
 
 th{
-background:#2e7d32;
+background:var(--warna-dashboard);
 color:white;
 }
 
 /* BUTTON */
 
 button{
-padding:6px 10px;
-border:none;
-background:#2e7d32;
+background:var(--warna-dashboard);
 color:white;
-cursor:pointer;
+border:none;
+padding:6px 12px;
 border-radius:4px;
+cursor:pointer;
 }
 
 button:hover{
-background:#1b5e20;
+background:var(--warna-hover);
 }
 
 /* STATUS */
@@ -146,13 +152,11 @@ border-bottom:1px solid #ddd;
 </div>
 
 
-
 <div class="section-title">Senarai Tempahan</div>
 
 <table>
 
 <thead>
-
 <tr>
 <th>Nama Pemohon</th>
 <th>Tarikh Pergi</th>
@@ -161,12 +165,9 @@ border-bottom:1px solid #ddd;
 <th>Kenderaan</th>
 <th>PDF</th>
 </tr>
-
 </thead>
 
-<tbody id="dataTempahan">
-
-</tbody>
+<tbody id="dataTempahan"></tbody>
 
 </table>
 
@@ -177,19 +178,15 @@ border-bottom:1px solid #ddd;
 <table>
 
 <thead>
-
 <tr>
 <th>Tarikh</th>
 <th>Bas</th>
 <th>Van</th>
 <th>Coaster</th>
 </tr>
-
 </thead>
 
-<tbody id="statusTempahan">
-
-</tbody>
+<tbody id="statusTempahan"></tbody>
 
 </table>
 
@@ -242,9 +239,7 @@ function showData(data){
 /* SUSUN TARIKH MENURUN */
 
 data.sort(function(a,b){
-
 return new Date(b.tarikhPergi)-new Date(a.tarikhPergi);
-
 });
 
 
@@ -273,20 +268,13 @@ let tarikh=formatTarikh(item.tarikhPergi);
 
 if(!status[tarikh]){
 
-status[tarikh]={
-
-Bas:true,
-Van:true,
-Coaster:true
-
-};
+status[tarikh]={Bas:true,Van:true,Coaster:true};
 
 }
 
 if(item.kenderaan.includes("Bas")) status[tarikh].Bas=false;
 if(item.kenderaan.includes("Van")) status[tarikh].Van=false;
 if(item.kenderaan.includes("Coaster")) status[tarikh].Coaster=false;
-
 
 
 kalendar+="<li>📅 "+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.aktiviti+")</li>";
