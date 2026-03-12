@@ -16,6 +16,15 @@
 background-color:#ffb3b3;
 }
 
+.section-title{
+background:#666;
+color:white;
+padding:10px;
+width:95%;
+margin:auto;
+margin-top:30px;
+}
+
 </style>
 
 </head>
@@ -31,12 +40,18 @@ background-color:#ffb3b3;
 
 </header>
 
+
 <div class="menu">
 
 <a href="index.html">Menu Utama</a>
 <a href="tempahan.html">Tempah Bas</a>
 
 </div>
+
+
+<!-- ================= SENARAI TEMPAHAN ================= -->
+
+<div class="section-title">Senarai Tempahan</div>
 
 <table border="1" width="95%" align="center">
 
@@ -60,11 +75,40 @@ background-color:#ffb3b3;
 
 </thead>
 
-<tbody id="dataTempahan">
-
-</tbody>
+<tbody id="dataTempahan"></tbody>
 
 </table>
+
+
+<!-- ================= STATUS KENDERAAN ================= -->
+
+<div class="section-title">Status Kenderaan</div>
+
+<table border="1" width="95%" align="center">
+
+<thead>
+
+<tr>
+
+<th>Tarikh</th>
+<th>Bas</th>
+<th>Van</th>
+<th>Coaster</th>
+
+</tr>
+
+</thead>
+
+<tbody id="statusTempahan"></tbody>
+
+</table>
+
+
+<!-- ================= KALENDAR TEMPAHAN ================= -->
+
+<div class="section-title">Kalendar Tempahan</div>
+
+<ul id="kalendarTempahan" style="width:95%;margin:auto;background:white;padding:15px;"></ul>
 
 
 <script>
@@ -81,7 +125,6 @@ let d=new Date(t);
 return d.toLocaleDateString("en-GB");
 
 }
-
 
 
 function detectClash(data,index){
@@ -126,46 +169,21 @@ const { jsPDF } = window.jspdf;
 
 const doc=new jsPDF();
 
-doc.setFontSize(18);
+doc.setFontSize(16);
 doc.text("BORANG TEMPAHAN BAS",20,20);
 
 doc.setFontSize(12);
 
-let y=40;
-let rowHeight=10;
-
-function row(label,value){
-
-doc.rect(20,y,70,rowHeight);
-doc.rect(90,y,100,rowHeight);
-
-doc.text(label,22,y+7);
-doc.text(value?String(value):"-",92,y+7);
-
-y+=rowHeight;
-
-}
-
-row("Nama Pemohon",item.nama);
-row("Jawatan",item.jawatan);
-row("Tempat",item.tempat);
-row("Pelajar Lelaki",item.pelajarLelaki);
-row("Pelajar Perempuan",item.pelajarPerempuan);
-row("Guru",item.guru);
-row("Tarikh Pergi",formatTarikh(item.tarikhPergi));
-row("Tarikh Pulang",formatTarikh(item.tarikhPulang));
-row("Aktiviti",item.aktiviti);
-row("Kenderaan",item.kenderaan);
-
-doc.line(30,200,80,200);
-doc.text("Tandatangan Pemohon",30,210);
-
-doc.line(130,200,180,200);
-doc.text("Tandatangan Pelulus",130,210);
-
-let today=new Date().toLocaleDateString("en-GB");
-
-doc.text("Tarikh Permohonan : "+today,30,225);
+doc.text("Nama Pemohon : "+item.nama,20,40);
+doc.text("Jawatan : "+item.jawatan,20,50);
+doc.text("Tempat : "+item.tempat,20,60);
+doc.text("Pelajar Lelaki : "+item.pelajarLelaki,20,70);
+doc.text("Pelajar Perempuan : "+item.pelajarPerempuan,20,80);
+doc.text("Guru : "+item.guru,20,90);
+doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,100);
+doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,110);
+doc.text("Tujuan : "+item.aktiviti,20,120);
+doc.text("Kenderaan : "+item.kenderaan,20,130);
 
 doc.save("tempahan_bas.pdf");
 
@@ -183,6 +201,9 @@ return new Date(b.tarikhPergi)-new Date(a.tarikhPergi);
 
 
 let html="";
+let status={};
+let kalendar="";
+
 
 data.forEach(function(item,index){
 
@@ -205,9 +226,49 @@ html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF<
 
 html+="</tr>";
 
+
+
+let tarikh=formatTarikh(item.tarikhPergi);
+
+if(!status[tarikh]){
+status[tarikh]={Bas:true,Van:true,Coaster:true};
+}
+
+if(item.kenderaan.includes("Bas")) status[tarikh].Bas=false;
+if(item.kenderaan.includes("Van")) status[tarikh].Van=false;
+if(item.kenderaan.includes("Coaster")) status[tarikh].Coaster=false;
+
+
+
+kalendar+="<li>"+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.aktiviti+")</li>";
+
 });
 
+
 document.getElementById("dataTempahan").innerHTML=html;
+
+
+
+let htmlStatus="";
+
+for(let tarikh in status){
+
+htmlStatus+="<tr>";
+
+htmlStatus+="<td>"+tarikh+"</td>";
+
+htmlStatus+="<td>"+(status[tarikh].Bas?"✅":"❌")+"</td>";
+htmlStatus+="<td>"+(status[tarikh].Van?"✅":"❌")+"</td>";
+htmlStatus+="<td>"+(status[tarikh].Coaster?"✅":"❌")+"</td>";
+
+htmlStatus+="</tr>";
+
+}
+
+document.getElementById("statusTempahan").innerHTML=htmlStatus;
+
+
+document.getElementById("kalendarTempahan").innerHTML=kalendar;
 
 }
 
@@ -228,5 +289,4 @@ loadDashboard();
 </script>
 
 </body>
-
 </html>
