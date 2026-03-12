@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Dashboard Tempahan Bas</title>
 
-<meta name="theme-color" content="#1976d2">
+<meta name="theme-color" content="#2e7d32">
 
 <link rel="icon" href="logo.jpg">
 
@@ -18,33 +18,56 @@
 
 body{
 font-family:Arial;
+margin:0;
+background:#f4f4f4;
 }
 
 header{
 text-align:center;
-margin-bottom:20px;
+padding:15px;
+background:#2e7d32;
+color:white;
 }
 
 .logo{
-height:80px;
+height:70px;
 }
 
+/* MENU */
+
 .menu{
+background:#2e7d32;
 text-align:center;
-margin-bottom:20px;
+padding:10px;
 }
 
 .menu a{
-margin:0 10px;
+color:white;
 text-decoration:none;
+margin:0 15px;
 font-weight:bold;
-color:#1976d2;
+font-size:16px;
 }
+
+/* TAB TAJUK */
+
+.section-title{
+background:#2e7d32;
+color:white;
+padding:10px;
+width:90%;
+margin:25px auto 0 auto;
+border-radius:4px 4px 0 0;
+font-weight:bold;
+}
+
+/* TABLE */
 
 table{
 border-collapse:collapse;
-margin:20px auto;
+margin:0 auto 25px auto;
 width:90%;
+background:white;
 }
 
 th,td{
@@ -54,22 +77,26 @@ text-align:center;
 }
 
 th{
-background:#1976d2;
+background:#2e7d32;
 color:white;
 }
+
+/* BUTTON */
 
 button{
 padding:6px 10px;
 border:none;
-background:#1976d2;
+background:#2e7d32;
 color:white;
 cursor:pointer;
 border-radius:4px;
 }
 
 button:hover{
-background:#125aa0;
+background:#1b5e20;
 }
+
+/* STATUS */
 
 .tersedia{
 color:green;
@@ -81,9 +108,13 @@ color:red;
 font-weight:bold;
 }
 
+/* KALENDAR */
+
 .kalendar{
 width:80%;
 margin:auto;
+background:white;
+padding:10px;
 }
 
 .kalendar li{
@@ -115,7 +146,8 @@ border-bottom:1px solid #ddd;
 </div>
 
 
-<h2 style="text-align:center;">Senarai Tempahan</h2>
+
+<div class="section-title">Senarai Tempahan</div>
 
 <table>
 
@@ -139,7 +171,8 @@ border-bottom:1px solid #ddd;
 </table>
 
 
-<h2 style="text-align:center;">Status Kenderaan</h2>
+
+<div class="section-title">Status Kenderaan</div>
 
 <table>
 
@@ -161,11 +194,11 @@ border-bottom:1px solid #ddd;
 </table>
 
 
-<h2 style="text-align:center;">Kalendar Tempahan</h2>
 
-<ul id="kalendarTempahan" class="kalendar">
+<div class="section-title">Kalendar Tempahan</div>
 
-</ul>
+<ul id="kalendarTempahan" class="kalendar"></ul>
+
 
 
 <script>
@@ -206,11 +239,11 @@ doc.save("tempahan_bas.pdf");
 
 function showData(data){
 
-/* SUSUN TARIKH MENURUN (TERBARU DI ATAS) */
+/* SUSUN TARIKH MENURUN */
 
 data.sort(function(a,b){
 
-return new Date(b.tarikhPergi) - new Date(a.tarikhPergi);
+return new Date(b.tarikhPergi)-new Date(a.tarikhPergi);
 
 });
 
@@ -236,8 +269,6 @@ html+="</tr>";
 
 
 
-/* STATUS KENDERAAN */
-
 let tarikh=formatTarikh(item.tarikhPergi);
 
 if(!status[tarikh]){
@@ -252,21 +283,11 @@ Coaster:true
 
 }
 
-if(item.kenderaan.includes("Bas")){
-status[tarikh].Bas=false;
-}
-
-if(item.kenderaan.includes("Van")){
-status[tarikh].Van=false;
-}
-
-if(item.kenderaan.includes("Coaster")){
-status[tarikh].Coaster=false;
-}
+if(item.kenderaan.includes("Bas")) status[tarikh].Bas=false;
+if(item.kenderaan.includes("Van")) status[tarikh].Van=false;
+if(item.kenderaan.includes("Coaster")) status[tarikh].Coaster=false;
 
 
-
-/* KALENDAR */
 
 kalendar+="<li>📅 "+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.aktiviti+")</li>";
 
@@ -276,7 +297,6 @@ kalendar+="<li>📅 "+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+i
 document.getElementById("dataTempahan").innerHTML=html;
 
 
-/* PAPAR STATUS */
 
 let htmlStatus="";
 
@@ -302,7 +322,6 @@ htmlStatus+="</tr>";
 document.getElementById("statusTempahan").innerHTML=htmlStatus;
 
 
-/* PAPAR KALENDAR */
 
 document.getElementById("kalendarTempahan").innerHTML=kalendar;
 
