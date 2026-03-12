@@ -10,14 +10,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<style>
-
-.clash{
-background-color:#ffb3b3;
-}
-
-</style>
-
 </head>
 
 <body>
@@ -48,7 +40,6 @@ background-color:#ffb3b3;
 <th>Tarikh Pergi</th>
 <th>Tarikh Pulang</th>
 <th>Tujuan</th>
-<th>Pemandu</th>
 <th>Kenderaan</th>
 <th>PDF</th>
 </tr>
@@ -66,54 +57,11 @@ background-color:#ffb3b3;
 
 const URL="https://script.google.com/macros/s/AKfycby6wnDHTMcQpyQnEHbwqtX5jbj45z_vvORbYQa7MdOQDUcs7I5bYYQaHcEK7lJGBzgdRg/exec";
 
-
 function formatTarikh(t){
-
-if(!t) return "-";
-
-/* paksa jadi date object */
 
 let d=new Date(t);
 
-/* format dd/mm/yyyy */
-
 return d.toLocaleDateString("en-GB");
-
-}
-
-
-
-function detectClash(data,index){
-
-let current=data[index];
-
-for(let i=0;i<data.length;i++){
-
-if(i!==index){
-
-let other=data[i];
-
-if(current.kenderaan===other.kenderaan){
-
-let start1=new Date(current.tarikhPergi);
-let end1=new Date(current.tarikhPulang);
-
-let start2=new Date(other.tarikhPergi);
-let end2=new Date(other.tarikhPulang);
-
-if(start1<=end2 && end1>=start2){
-
-return true;
-
-}
-
-}
-
-}
-
-}
-
-return false;
 
 }
 
@@ -129,8 +77,6 @@ doc.text("BORANG TEMPAHAN BAS",20,20);
 
 doc.setFontSize(12);
 
-doc.text("Sekolah : SM Sains Alor Gajah",20,40);
-
 doc.text("Nama Pemohon : "+item.nama,20,60);
 
 doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,70);
@@ -139,45 +85,25 @@ doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,80);
 
 doc.text("Tujuan : "+item.aktiviti,20,90);
 
-doc.text("Pemandu : "+item.pemandu,20,100);
-
-doc.text("Kenderaan : "+item.kenderaan,20,110);
+doc.text("Kenderaan : "+item.kenderaan,20,100);
 
 doc.save("tempahan_bas.pdf");
 
 }
 
 
-
 function showData(data){
-
-/* susun ikut tarikh terbaru */
-
-data.sort(function(a,b){
-
-return new Date(b.tarikhPergi)-new Date(a.tarikhPergi);
-
-});
-
 
 let html="";
 
-data.forEach(function(item,index){
+data.forEach(function(item){
 
-let clash=detectClash(data,index);
-
-html+="<tr class='"+(clash?"clash":"")+"'>";
+html+="<tr>";
 
 html+="<td>"+item.nama+"</td>";
-
 html+="<td>"+formatTarikh(item.tarikhPergi)+"</td>";
-
 html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
-
 html+="<td>"+item.aktiviti+"</td>";
-
-html+="<td>"+item.pemandu+"</td>";
-
 html+="<td>"+item.kenderaan+"</td>";
 
 html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
@@ -189,7 +115,6 @@ html+="</tr>";
 document.getElementById("dataTempahan").innerHTML=html;
 
 }
-
 
 
 function loadDashboard(){
@@ -208,6 +133,3 @@ loadDashboard();
 
 </body>
 </html>
-
-
-
