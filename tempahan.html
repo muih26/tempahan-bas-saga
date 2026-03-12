@@ -8,6 +8,8 @@
 
 <link rel="stylesheet" href="style.css">
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
 
 .opsyen{
@@ -65,16 +67,16 @@ background:#125aa0;
 <form id="borangTempahan">
 
 <label>Tarikh Mohon</label>
-<input type="date" id="tarikhMohon">
+<input type="date" id="tarikhMohon" required>
 
 <label>Aktiviti</label>
-<input type="text" id="aktiviti">
+<input type="text" id="aktiviti" required>
 
 <label>Tempat</label>
-<input type="text" id="tempat">
+<input type="text" id="tempat" required>
 
 <label>Nama Pemohon</label>
-<input type="text" id="nama">
+<input type="text" id="nama" required>
 
 <label>Jawatan</label>
 <input type="text" id="jawatan">
@@ -89,10 +91,10 @@ background:#125aa0;
 <input type="number" id="guru">
 
 <label>Tarikh Pergi</label>
-<input type="date" id="tarikhPergi">
+<input type="date" id="tarikhPergi" required>
 
 <label>Tarikh Pulang</label>
-<input type="date" id="tarikhPulang">
+<input type="date" id="tarikhPulang" required>
 
 <label>Masa Pergi</label>
 <input type="time" id="masaPergi">
@@ -122,24 +124,6 @@ background:#125aa0;
 
 </div>
 
-
-<h3>Pemandu</h3>
-
-<div class="opsyen">
-
-<div class="opsyen-row">
-<span>En. Faizal</span>
-<input type="checkbox" id="faizal">
-</div>
-
-<div class="opsyen-row">
-<span>En. Nuri</span>
-<input type="checkbox" id="nuri">
-</div>
-
-</div>
-
-
 <button type="submit">Hantar Tempahan</button>
 
 </form>
@@ -156,7 +140,6 @@ document.getElementById("borangTempahan").addEventListener("submit", function(e)
 e.preventDefault();
 
 let kenderaan=[];
-let pemandu=[];
 
 if(document.getElementById("bas").checked){
 kenderaan.push("Bas");
@@ -170,14 +153,16 @@ if(document.getElementById("van").checked){
 kenderaan.push("Van");
 }
 
-if(document.getElementById("faizal").checked){
-pemandu.push("En. Faizal");
-}
+if(kenderaan.length===0){
 
-if(document.getElementById("nuri").checked){
-pemandu.push("En. Nuri");
-}
+Swal.fire({
+icon:'warning',
+title:'Sila pilih kenderaan'
+});
 
+return;
+
+}
 
 let data={
 
@@ -198,11 +183,9 @@ tarikhPulang:document.getElementById("tarikhPulang").value,
 masaPergi:document.getElementById("masaPergi").value,
 masaBalik:document.getElementById("masaBalik").value,
 
-kenderaan:kenderaan.join(", "),
-pemandu:pemandu.join(", ")
+kenderaan:kenderaan.join(", ")
 
 };
-
 
 fetch(URL,{
 method:"POST",
@@ -211,24 +194,18 @@ body:JSON.stringify(data)
 .then(res=>res.text())
 .then(res=>{
 
-alert("Tempahan berjaya dihantar");
+Swal.fire({
+icon:'success',
+title:'Tempahan Berjaya',
+timer:2000,
+showConfirmButton:false
+});
 
 document.getElementById("borangTempahan").reset();
 
-/* pergi ke dashboard */
-
 setTimeout(function(){
-
 window.location.href="dashboard.html";
-
-},1000);
-
-})
-.catch(err=>{
-
-console.error(err);
-
-alert("Tempahan gagal dihantar");
+},2000);
 
 });
 
