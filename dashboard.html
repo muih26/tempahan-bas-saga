@@ -128,6 +128,16 @@ padding:8px;
 border-bottom:1px solid #ddd;
 }
 
+/* HIGHLIGHT TEMPAHAN */
+
+.today{
+background:#ffcccc;
+}
+
+.soon{
+background:#fff3cd;
+}
+
 </style>
 
 </head>
@@ -228,41 +238,45 @@ doc.save("tempahan_bas.pdf");
 
 }
 
-
 function showData(data){
 
-/* SUSUN TARIKH MENURUN (BULAN + HARI) */
-
 data.sort(function(a,b){
-
-let A = new Date(a.tarikhPergi).getTime();
-let B = new Date(b.tarikhPergi).getTime();
-
-return B - A;
-
+return new Date(b.tarikhPergi)-new Date(a.tarikhPergi);
 });
-
 
 let html="";
 let status={};
 let kalendar="";
 
+let today=new Date();
+today.setHours(0,0,0,0);
 
 data.forEach(function(item){
 
-html+="<tr>";
+let tripDate=new Date(item.tarikhPergi);
+tripDate.setHours(0,0,0,0);
+
+let diff=(tripDate-today)/(1000*60*60*24);
+
+let kelas="";
+
+if(diff===0){
+kelas="today";
+}
+else if(diff<=7 && diff>0){
+kelas="soon";
+}
+
+html+="<tr class='"+kelas+"'>";
 
 html+="<td>"+item.nama+"</td>";
 html+="<td>"+formatTarikh(item.tarikhPergi)+"</td>";
 html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
 html+="<td>"+item.aktiviti+"</td>";
 html+="<td>"+item.kenderaan+"</td>";
-
 html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>PDF</button></td>";
 
 html+="</tr>";
-
-
 
 let tarikh=formatTarikh(item.tarikhPergi);
 
@@ -274,15 +288,11 @@ if(item.kenderaan.includes("Bas")) status[tarikh].Bas=false;
 if(item.kenderaan.includes("Van")) status[tarikh].Van=false;
 if(item.kenderaan.includes("Coaster")) status[tarikh].Coaster=false;
 
-
 kalendar+="<li>📅 "+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.aktiviti+")</li>";
 
 });
 
-
 document.getElementById("dataTempahan").innerHTML=html;
-
-
 
 let htmlStatus="";
 
@@ -293,9 +303,7 @@ htmlStatus+="<tr>";
 htmlStatus+="<td>"+tarikh+"</td>";
 
 htmlStatus+="<td class='"+(status[tarikh].Bas?"tersedia":"ditempah")+"'>"+(status[tarikh].Bas?"✅":"❌")+"</td>";
-
 htmlStatus+="<td class='"+(status[tarikh].Van?"tersedia":"ditempah")+"'>"+(status[tarikh].Van?"✅":"❌")+"</td>";
-
 htmlStatus+="<td class='"+(status[tarikh].Coaster?"tersedia":"ditempah")+"'>"+(status[tarikh].Coaster?"✅":"❌")+"</td>";
 
 htmlStatus+="</tr>";
@@ -307,7 +315,6 @@ document.getElementById("statusTempahan").innerHTML=htmlStatus;
 document.getElementById("kalendarTempahan").innerHTML=kalendar;
 
 }
-
 
 function loadDashboard(){
 
