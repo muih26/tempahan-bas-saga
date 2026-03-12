@@ -49,7 +49,7 @@ margin-top:30px;
 </div>
 
 
-<!-- ================= SENARAI TEMPAHAN ================= -->
+<!-- SENARAI TEMPAHAN -->
 
 <div class="section-title">Senarai Tempahan</div>
 
@@ -80,7 +80,7 @@ margin-top:30px;
 </table>
 
 
-<!-- ================= STATUS KENDERAAN ================= -->
+<!-- STATUS KENDERAAN -->
 
 <div class="section-title">Status Kenderaan</div>
 
@@ -104,7 +104,7 @@ margin-top:30px;
 </table>
 
 
-<!-- ================= KALENDAR TEMPAHAN ================= -->
+<!-- KALENDAR TEMPAHAN -->
 
 <div class="section-title">Kalendar Tempahan</div>
 
@@ -163,7 +163,7 @@ return false;
 
 
 
-/* ================= PDF BORANG ================= */
+/* PDF */
 
 function downloadPDF(item){
 
@@ -177,13 +177,14 @@ doc.addImage("logo.jpg","JPEG",85,10,40,30);
 
 /* TAJUK */
 
-doc.setFontSize(18);
-doc.text("TEMPAHAN BAS",105,50,{align:"center"});
+doc.setFontSize(20);
+doc.text("BORANG TEMPAHAN BAS",105,50,{align:"center"});
 
 doc.setFontSize(14);
 doc.text("SM SAINS ALOR GAJAH",105,58,{align:"center"});
 
-/* TARIKH */
+
+/* FORMAT TARIKH */
 
 function formatTarikh(t){
 
@@ -195,26 +196,28 @@ return d.toLocaleDateString("en-GB");
 
 }
 
-let today = new Date().toLocaleDateString("en-GB");
 
 /* JADUAL */
 
 let y = 75;
-let rowHeight = 10;
+let height = 10;
 
 function row(label,value){
 
-doc.rect(20,y,70,rowHeight);
-doc.rect(90,y,100,rowHeight);
+doc.rect(20,y,70,height);
+doc.rect(90,y,100,height);
 
 doc.setFontSize(11);
 
 doc.text(label,22,y+7);
 doc.text(value ? String(value) : "-",92,y+7);
 
-y+=rowHeight;
+y+=height;
 
 }
+
+
+/* DATA */
 
 row("Nama Pemohon",item.nama);
 row("Jawatan",item.jawatan);
@@ -224,22 +227,29 @@ row("Pelajar Perempuan",item.pelajarPerempuan);
 row("Guru",item.guru);
 row("Tarikh Pergi",formatTarikh(item.tarikhPergi));
 row("Tarikh Pulang",formatTarikh(item.tarikhPulang));
-row("Aktiviti",item.aktiviti);
+row("Tujuan",item.aktiviti);
 row("Kenderaan",item.kenderaan);
+
 
 /* TANDATANGAN */
 
 doc.line(30,220,80,220);
 doc.text("Tandatangan Pemohon",30,230);
-doc.text("( "+(item.nama || "Nama Pemohon")+" )",30,238);
+doc.text("( "+item.nama+" )",30,238);
 
 doc.line(130,220,180,220);
 doc.text("Tandatangan Pelulus",130,230);
 doc.text("( Pengetua / PK Pentadbiran )",130,238);
 
-/* TARIKH PERMOHONAN */
+
+/* TARIKH */
+
+let today = new Date().toLocaleDateString("en-GB");
 
 doc.text("Tarikh Permohonan : "+today,30,250);
+
+
+/* SAVE */
 
 doc.save("Tempahan_Bas_SM_SAGA.pdf");
 
@@ -247,7 +257,7 @@ doc.save("Tempahan_Bas_SM_SAGA.pdf");
 
 
 
-/* ================= PAPAR DATA ================= */
+/* PAPAR DATA */
 
 function showData(data){
 
@@ -280,7 +290,18 @@ html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
 html+="<td>"+(item.aktiviti||"-")+"</td>";
 html+="<td>"+(item.kenderaan||"-")+"</td>";
 
-html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
+html+="<td><button onclick='downloadPDF("+JSON.stringify({
+nama:item.nama,
+jawatan:item.jawatan,
+tempat:item.tempat,
+pelajarLelaki:item.pelajarLelaki,
+pelajarPerempuan:item.pelajarPerempuan,
+guru:item.guru,
+tarikhPergi:item.tarikhPergi,
+tarikhPulang:item.tarikhPulang,
+aktiviti:item.aktiviti,
+kenderaan:item.kenderaan
+})+")'>Download PDF</button></td>";
 
 html+="</tr>";
 
