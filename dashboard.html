@@ -6,11 +6,42 @@
 <meta charset="UTF-8">
 <title>Dashboard Tempahan Bas</title>
 
+<!-- warna tab browser -->
+<meta name="theme-color" content="#1976d2">
+
+<!-- favicon -->
+<link rel="icon" href="logo.jpg">
+
 <link rel="stylesheet" href="style.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
+
+body{
+font-family:Arial;
+}
+
+header{
+text-align:center;
+margin-bottom:20px;
+}
+
+.logo{
+height:80px;
+}
+
+.menu{
+text-align:center;
+margin-bottom:20px;
+}
+
+.menu a{
+margin:0 10px;
+text-decoration:none;
+font-weight:bold;
+color:#1976d2;
+}
 
 table{
 border-collapse:collapse;
@@ -29,6 +60,19 @@ background:#1976d2;
 color:white;
 }
 
+button{
+padding:6px 10px;
+border:none;
+background:#1976d2;
+color:white;
+cursor:pointer;
+border-radius:4px;
+}
+
+button:hover{
+background:#125aa0;
+}
+
 .tersedia{
 color:green;
 font-weight:bold;
@@ -37,6 +81,16 @@ font-weight:bold;
 .ditempah{
 color:red;
 font-weight:bold;
+}
+
+.kalendar{
+width:80%;
+margin:auto;
+}
+
+.kalendar li{
+padding:8px;
+border-bottom:1px solid #ddd;
 }
 
 </style>
@@ -53,6 +107,7 @@ font-weight:bold;
 <h3>SM Sains Alor Gajah</h3>
 
 </header>
+
 
 <div class="menu">
 
@@ -108,6 +163,13 @@ font-weight:bold;
 </table>
 
 
+<h2 style="text-align:center;">Kalendar Tempahan</h2>
+
+<ul id="kalendarTempahan" class="kalendar">
+
+</ul>
+
+
 <script>
 
 const URL="https://script.google.com/macros/s/AKfycby6wnDHTMcQpyQnEHbwqtX5jbj45z_vvORbYQa7MdOQDUcs7I5bYYQaHcEK7lJGBzgdRg/exec";
@@ -134,13 +196,9 @@ doc.text("BORANG TEMPAHAN BAS",20,20);
 doc.setFontSize(12);
 
 doc.text("Nama Pemohon : "+item.nama,20,60);
-
 doc.text("Tarikh Pergi : "+formatTarikh(item.tarikhPergi),20,70);
-
 doc.text("Tarikh Pulang : "+formatTarikh(item.tarikhPulang),20,80);
-
 doc.text("Tujuan : "+item.aktiviti,20,90);
-
 doc.text("Kenderaan : "+item.kenderaan,20,100);
 
 doc.save("tempahan_bas.pdf");
@@ -150,8 +208,19 @@ doc.save("tempahan_bas.pdf");
 
 function showData(data){
 
+/* susun tarikh pergi menaik */
+
+data.sort(function(a,b){
+
+return new Date(a.tarikhPergi)-new Date(b.tarikhPergi);
+
+});
+
+
 let html="";
 let status={};
+let kalendar="";
+
 
 data.forEach(function(item){
 
@@ -163,10 +232,13 @@ html+="<td>"+formatTarikh(item.tarikhPulang)+"</td>";
 html+="<td>"+item.aktiviti+"</td>";
 html+="<td>"+item.kenderaan+"</td>";
 
-html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>Download PDF</button></td>";
+html+="<td><button onclick='downloadPDF("+JSON.stringify(item)+")'>PDF</button></td>";
 
 html+="</tr>";
 
+
+
+/* STATUS KENDERAAN */
 
 let tarikh=formatTarikh(item.tarikhPergi);
 
@@ -194,11 +266,19 @@ if(item.kenderaan.includes("Coaster")){
 status[tarikh].Coaster=false;
 }
 
+
+
+/* KALENDAR */
+
+kalendar+="<li>📅 "+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.aktiviti+")</li>";
+
 });
 
 
 document.getElementById("dataTempahan").innerHTML=html;
 
+
+/* PAPAR STATUS */
 
 let htmlStatus="";
 
@@ -222,6 +302,11 @@ htmlStatus+="</tr>";
 }
 
 document.getElementById("statusTempahan").innerHTML=htmlStatus;
+
+
+/* PAPAR KALENDAR */
+
+document.getElementById("kalendarTempahan").innerHTML=kalendar;
 
 }
 
