@@ -211,9 +211,13 @@ function downloadPDF(item){
 
 const { jsPDF } = window.jspdf;
 
-const doc=new jsPDF();
+const doc = new jsPDF();
 
-doc.addImage("logo.jpg","JPEG",90,10,30,30);
+/* ===== LOGO ===== */
+
+doc.addImage("logo.jpg","JPEG",85,10,40,30);
+
+/* ===== TAJUK ===== */
 
 doc.setFontSize(18);
 doc.text("BORANG TEMPAHAN BAS",105,50,{align:"center"});
@@ -221,36 +225,58 @@ doc.text("BORANG TEMPAHAN BAS",105,50,{align:"center"});
 doc.setFontSize(14);
 doc.text("SM SAINS ALOR GAJAH",105,58,{align:"center"});
 
-let today=new Date();
-let tarikhMohon=today.toLocaleDateString("en-GB");
+/* ===== FORMAT TARIKH ===== */
 
-let startY=75;
-let rowHeight=10;
+function formatTarikh(t){
+let d=new Date(t);
+return d.toLocaleDateString("en-GB");
+}
 
-function row(label,value,y){
+/* ===== JADUAL ===== */
 
-doc.rect(20,y,70,rowHeight);
-doc.rect(90,y,100,rowHeight);
+let y = 80;
+let row = 12;
 
-doc.text(label,22,y+7);
-doc.text(value?String(value):"-",92,y+7);
+function buatRow(label,value){
+
+doc.rect(20,y,70,row);
+doc.rect(90,y,100,row);
+
+doc.setFontSize(12);
+
+doc.text(label,22,y+8);
+doc.text(value ? String(value) : "-",92,y+8);
+
+y+=row;
 
 }
 
-row("Nama Pemohon",item.nama,startY);
-row("Tarikh Permohonan",tarikhMohon,startY+10);
-row("Tarikh Pergi",formatTarikh(item.tarikhPergi),startY+20);
-row("Tarikh Pulang",formatTarikh(item.tarikhPulang),startY+30);
-row("Tujuan",item.aktiviti,startY+40);
-row("Kenderaan",item.kenderaan,startY+50);
+buatRow("Nama Pemohon",item.nama);
+buatRow("Jawatan",item.jawatan);
+buatRow("Tarikh Pergi",formatTarikh(item.tarikhPergi));
+buatRow("Tarikh Pulang",formatTarikh(item.tarikhPulang));
+buatRow("Aktiviti",item.aktiviti);
+buatRow("Tempat",item.tempat);
+buatRow("Kenderaan",item.kenderaan);
+buatRow("Bil Pelajar Lelaki",item.pelajarLelaki);
+buatRow("Bil Pelajar Perempuan",item.pelajarPerempuan);
+buatRow("Bil Guru",item.guru);
 
-doc.line(30,180,80,180);
-doc.text("Tandatangan Pemohon",30,188);
+/* ===== TANDATANGAN ===== */
 
-doc.line(130,180,180,180);
-doc.text("Tandatangan Pelulus",130,188);
+doc.line(30,200,80,200);
+doc.text("Tandatangan Pemohon",30,210);
 
-doc.text("Tarikh: "+tarikhMohon,30,200);
+doc.line(130,200,180,200);
+doc.text("Tandatangan Pelulus",130,210);
+
+/* ===== TARIKH PERMOHONAN ===== */
+
+let today = new Date().toLocaleDateString("en-GB");
+
+doc.text("Tarikh Permohonan : "+today,30,225);
+
+/* ===== SAVE ===== */
 
 doc.save("Tempahan_Bas_SM_SAGA.pdf");
 
@@ -371,3 +397,4 @@ loadDashboard();
 
 </body>
 </html>
+
