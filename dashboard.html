@@ -16,6 +16,10 @@
 background-color:#ffb3b3;
 }
 
+.today{
+background:#d4edda;
+}
+
 .section-title{
 background:#666;
 color:white;
@@ -49,6 +53,7 @@ margin-top:30px;
 
 
 <div class="section-title">Kalendar Tempahan</div>
+
 <ul id="kalendarTempahan" style="width:95%;margin:auto;background:white;padding:15px;"></ul>
 
 
@@ -288,7 +293,9 @@ return;
 
 let clash=detectClash(data,index);
 
-html+="<tr class='"+(clash?"clash":"")+"'>";
+let todayClass=(pergi.getTime()===today.getTime())?"today":"";
+
+html+="<tr class='"+(clash?"clash ":"")+todayClass+"'>";
 
 html+="<td>"+(item.nama||"-")+"</td>";
 html+="<td>"+(item.jawatan||"-")+"</td>";
@@ -307,8 +314,6 @@ html+="</tr>";
 
 
 
-/* STATUS */
-
 let tarikh=formatTarikh(item.tarikhPergi);
 
 if(!status[tarikh]){
@@ -320,8 +325,6 @@ if(item.kenderaan.includes("Van")) status[tarikh].Van=false;
 if(item.kenderaan.includes("Coaster")) status[tarikh].Coaster=false;
 
 
-
-/* KALENDAR — HANYA AKTIF */
 
 kalendar+="<li>"+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.aktiviti+")</li>";
 
