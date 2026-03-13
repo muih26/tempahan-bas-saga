@@ -53,14 +53,12 @@ background:#125aa0;
 
 </header>
 
-
 <div class="menu">
 
 <a href="index.html">Menu Utama</a>
 <a href="dashboard.html">Dashboard</a>
 
 </div>
-
 
 <div class="container">
 
@@ -130,7 +128,6 @@ background:#125aa0;
 
 </div>
 
-
 <script>
 
 const URL="https://script.google.com/macros/s/AKfycbwlGgsHcFFlJmiXVY9fDBHfEHZRUVfmOKA83UUWKtsemy79dJgTjI-vPu0T5aF47sluiA/exec";
@@ -164,38 +161,35 @@ return;
 
 }
 
-let data={
+/* gunakan FormData */
 
-tarikhMohon:document.getElementById("tarikhMohon").value,
-aktiviti:document.getElementById("aktiviti").value,
-tempat:document.getElementById("tempat").value,
+let formData = new FormData();
 
-nama:document.getElementById("nama").value,
-jawatan:document.getElementById("jawatan").value,
+formData.append("tarikhMohon",document.getElementById("tarikhMohon").value);
+formData.append("aktiviti",document.getElementById("aktiviti").value);
+formData.append("tempat",document.getElementById("tempat").value);
 
-pelajarLelaki:document.getElementById("lelaki").value,
-pelajarPerempuan:document.getElementById("perempuan").value,
-guru:document.getElementById("guru").value,
+formData.append("nama",document.getElementById("nama").value);
+formData.append("jawatan",document.getElementById("jawatan").value);
 
-tarikhPergi:document.getElementById("tarikhPergi").value,
-tarikhPulang:document.getElementById("tarikhPulang").value,
+formData.append("pelajarLelaki",document.getElementById("lelaki").value);
+formData.append("pelajarPerempuan",document.getElementById("perempuan").value);
+formData.append("guru",document.getElementById("guru").value);
 
-masaPergi:document.getElementById("masaPergi").value,
-masaBalik:document.getElementById("masaBalik").value,
+formData.append("tarikhPergi",document.getElementById("tarikhPergi").value);
+formData.append("tarikhPulang",document.getElementById("tarikhPulang").value);
 
-kenderaan:kenderaan.join(", ")
+formData.append("masaPergi",document.getElementById("masaPergi").value);
+formData.append("masaBalik",document.getElementById("masaBalik").value);
 
-};
+formData.append("kenderaan",kenderaan.join(", "));
 
 fetch(URL,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify(data)
+body:formData
 })
 .then(res=>res.text())
-.then(()=>{
+.then(res=>{
 
 Swal.fire({
 icon:'success',
