@@ -48,19 +48,9 @@ margin-top:30px;
 </div>
 
 
-<!-- ================= -->
-<!-- KALENDAR -->
-<!-- ================= -->
-
 <div class="section-title">Kalendar Tempahan</div>
-
 <ul id="kalendarTempahan" style="width:95%;margin:auto;background:white;padding:15px;"></ul>
 
-
-
-<!-- ================= -->
-<!-- SENARAI TEMPAHAN -->
-<!-- ================= -->
 
 <div class="section-title">Senarai Tempahan Aktif</div>
 
@@ -90,10 +80,6 @@ margin-top:30px;
 
 
 
-<!-- ================= -->
-<!-- STATUS KENDERAAN -->
-<!-- ================= -->
-
 <div class="section-title">Status Kenderaan</div>
 
 <table border="1" width="95%" align="center">
@@ -114,10 +100,6 @@ margin-top:30px;
 </table>
 
 
-
-<!-- ================= -->
-<!-- TEMPAHAN SELESAI -->
-<!-- ================= -->
 
 <div class="section-title">Tempahan Telah Selesai</div>
 
@@ -200,11 +182,7 @@ const { jsPDF } = window.jspdf;
 
 const doc = new jsPDF();
 
-/* LOGO */
-
 doc.addImage("logo.jpg","JPEG",85,10,40,30);
-
-/* TAJUK */
 
 doc.setFontSize(20);
 doc.text("BORANG TEMPAHAN BAS",105,50,{align:"center"});
@@ -212,21 +190,6 @@ doc.text("BORANG TEMPAHAN BAS",105,50,{align:"center"});
 doc.setFontSize(14);
 doc.text("SM SAINS ALOR GAJAH",105,58,{align:"center"});
 
-
-/* FORMAT TARIKH */
-
-function formatTarikh(t){
-
-if(!t) return "-";
-
-let d=new Date(t);
-
-return d.toLocaleDateString("en-GB");
-
-}
-
-
-/* JADUAL */
 
 let y = 75;
 let height = 10;
@@ -245,9 +208,6 @@ y+=height;
 
 }
 
-
-/* DATA */
-
 row("Nama Pemohon",item.nama);
 row("Jawatan",item.jawatan);
 row("Tempat",item.tempat);
@@ -260,10 +220,6 @@ row("Tujuan",item.aktiviti);
 row("Kenderaan",item.kenderaan);
 
 
-/* ===================== */
-/* TANDATANGAN (ASAL) */
-/* ===================== */
-
 doc.line(30,220,80,220);
 doc.text("Tandatangan Pemohon",30,230);
 doc.text("( "+(item.nama || "Nama Pemohon")+" )",30,238);
@@ -272,15 +228,9 @@ doc.line(130,220,180,220);
 doc.text("Tandatangan Pelulus",130,230);
 doc.text("( Pengetua / PK Pentadbiran )",130,238);
 
-
-/* TARIKH PERMOHONAN */
-
 let today = new Date().toLocaleDateString("en-GB");
 
 doc.text("Tarikh Permohonan : "+today,30,250);
-
-
-/* SAVE */
 
 doc.save("Tempahan_Bas_SM_SAGA.pdf");
 
@@ -290,24 +240,30 @@ doc.save("Tempahan_Bas_SM_SAGA.pdf");
 
 function showData(data){
 
+/* ===== SORT TARIKH MENURUN ===== */
+
+data.sort(function(a,b){
+return new Date(b.tarikhPergi) - new Date(a.tarikhPergi);
+});
+
+
 let html="";
 let selesai="";
 let kalendar="";
 let status={};
 
-let today = new Date();
+let today=new Date();
 today.setHours(0,0,0,0);
 
 
 
 data.forEach(function(item,index){
 
-let balik = new Date(item.tarikhPulang);
+let balik=new Date(item.tarikhPulang);
 balik.setHours(0,0,0,0);
 
 
-
-/* JIKA TEMPAHAN SELESAI */
+/* ===== TEMPAHAN SELESAI ===== */
 
 if(balik < today){
 
@@ -326,8 +282,7 @@ return;
 }
 
 
-
-/* TEMPAHAN AKTIF */
+/* ===== TEMPAHAN AKTIF ===== */
 
 let clash=detectClash(data,index);
 
@@ -350,7 +305,7 @@ html+="</tr>";
 
 
 
-/* STATUS KENDERAAN */
+/* ===== STATUS KENDERAAN ===== */
 
 let tarikh=formatTarikh(item.tarikhPergi);
 
@@ -364,7 +319,7 @@ if(item.kenderaan.includes("Coaster")) status[tarikh].Coaster=false;
 
 
 
-/* KALENDAR */
+/* ===== KALENDAR ===== */
 
 kalendar+="<li>"+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.aktiviti+")</li>";
 
@@ -372,16 +327,20 @@ kalendar+="<li>"+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.a
 
 
 document.getElementById("dataTempahan").innerHTML=html;
-
 document.getElementById("tempahanSelesai").innerHTML=selesai;
-
 document.getElementById("kalendarTempahan").innerHTML=kalendar;
 
 
 
 let htmlStatus="";
 
-for(let tarikh in status){
+/* SORT STATUS TARIKH */
+
+let sortedTarikh=Object.keys(status).sort(function(a,b){
+return new Date(b) - new Date(a);
+});
+
+sortedTarikh.forEach(function(tarikh){
 
 htmlStatus+="<tr>";
 
@@ -392,7 +351,7 @@ htmlStatus+="<td>"+(status[tarikh].Coaster?"✅":"❌")+"</td>";
 
 htmlStatus+="</tr>";
 
-}
+});
 
 document.getElementById("statusTempahan").innerHTML=htmlStatus;
 
@@ -416,6 +375,3 @@ loadDashboard();
 
 </body>
 </html>
-
-
-
