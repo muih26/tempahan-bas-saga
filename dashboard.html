@@ -52,6 +52,7 @@ margin-top:30px;
 <ul id="kalendarTempahan" style="width:95%;margin:auto;background:white;padding:15px;"></ul>
 
 
+
 <div class="section-title">Senarai Tempahan Aktif</div>
 
 <table border="1" width="95%" align="center">
@@ -128,12 +129,19 @@ margin-top:30px;
 const URL="https://script.google.com/macros/s/AKfycby9vgJC313b5FQf5KxFBjmr1WteTF41M_ZYorPxs76cqnBWlJ6Vz7imw_Dx8_QwiQOSEw/exec";
 
 
+function normalizeDate(t){
+
+let d=new Date(t);
+d.setHours(0,0,0,0);
+return d;
+
+}
+
 function formatTarikh(t){
 
 if(!t) return "-";
 
 let d=new Date(t);
-
 return d.toLocaleDateString("en-GB");
 
 }
@@ -152,16 +160,14 @@ let other=data[i];
 
 if(current.kenderaan===other.kenderaan){
 
-let start1=new Date(current.tarikhPergi);
-let end1=new Date(current.tarikhPulang);
+let start1=normalizeDate(current.tarikhPergi);
+let end1=normalizeDate(current.tarikhPulang);
 
-let start2=new Date(other.tarikhPergi);
-let end2=new Date(other.tarikhPulang);
+let start2=normalizeDate(other.tarikhPergi);
+let end2=normalizeDate(other.tarikhPulang);
 
 if(start1<=end2 && end1>=start2){
-
 return true;
-
 }
 
 }
@@ -180,7 +186,7 @@ function downloadPDF(item){
 
 const { jsPDF } = window.jspdf;
 
-const doc = new jsPDF();
+const doc=new jsPDF();
 
 doc.addImage("logo.jpg","JPEG",85,10,40,30);
 
@@ -190,9 +196,8 @@ doc.text("BORANG TEMPAHAN BAS",105,50,{align:"center"});
 doc.setFontSize(14);
 doc.text("SM SAINS ALOR GAJAH",105,58,{align:"center"});
 
-
-let y = 75;
-let height = 10;
+let y=75;
+let height=10;
 
 function row(label,value){
 
@@ -202,7 +207,7 @@ doc.rect(90,y,100,height);
 doc.setFontSize(11);
 
 doc.text(label,22,y+7);
-doc.text(value ? String(value) : "-",92,y+7);
+doc.text(value?String(value):"-",92,y+7);
 
 y+=height;
 
@@ -219,16 +224,15 @@ row("Tarikh Pulang",formatTarikh(item.tarikhPulang));
 row("Tujuan",item.aktiviti);
 row("Kenderaan",item.kenderaan);
 
-
 doc.line(30,220,80,220);
 doc.text("Tandatangan Pemohon",30,230);
-doc.text("( "+(item.nama || "Nama Pemohon")+" )",30,238);
+doc.text("( "+(item.nama||"Nama Pemohon")+" )",30,238);
 
 doc.line(130,220,180,220);
 doc.text("Tandatangan Pelulus",130,230);
 doc.text("( Pengetua / PK Pentadbiran )",130,238);
 
-let today = new Date().toLocaleDateString("en-GB");
+let today=new Date().toLocaleDateString("en-GB");
 
 doc.text("Tarikh Permohonan : "+today,30,250);
 
@@ -240,12 +244,9 @@ doc.save("Tempahan_Bas_SM_SAGA.pdf");
 
 function showData(data){
 
-/* ===== SORT TARIKH MENURUN ===== */
-
 data.sort(function(a,b){
-return new Date(b.tarikhPergi) - new Date(a.tarikhPergi);
+return new Date(b.tarikhPergi)-new Date(a.tarikhPergi);
 });
-
 
 let html="";
 let selesai="";
@@ -259,13 +260,13 @@ today.setHours(0,0,0,0);
 
 data.forEach(function(item,index){
 
-let balik=new Date(item.tarikhPulang);
-balik.setHours(0,0,0,0);
+let pergi=normalizeDate(item.tarikhPergi);
+let balik=normalizeDate(item.tarikhPulang);
 
 
-/* ===== TEMPAHAN SELESAI ===== */
+/* TEMPAHAN SELESAI */
 
-if(balik < today){
+if(balik<today){
 
 selesai+="<tr>";
 
@@ -282,7 +283,8 @@ return;
 }
 
 
-/* ===== TEMPAHAN AKTIF ===== */
+
+/* TEMPAHAN AKTIF */
 
 let clash=detectClash(data,index);
 
@@ -305,7 +307,7 @@ html+="</tr>";
 
 
 
-/* ===== STATUS KENDERAAN ===== */
+/* STATUS */
 
 let tarikh=formatTarikh(item.tarikhPergi);
 
@@ -319,11 +321,12 @@ if(item.kenderaan.includes("Coaster")) status[tarikh].Coaster=false;
 
 
 
-/* ===== KALENDAR ===== */
+/* KALENDAR — HANYA AKTIF */
 
 kalendar+="<li>"+formatTarikh(item.tarikhPergi)+" - "+item.kenderaan+" ("+item.aktiviti+")</li>";
 
 });
+
 
 
 document.getElementById("dataTempahan").innerHTML=html;
@@ -334,10 +337,8 @@ document.getElementById("kalendarTempahan").innerHTML=kalendar;
 
 let htmlStatus="";
 
-/* SORT STATUS TARIKH */
-
 let sortedTarikh=Object.keys(status).sort(function(a,b){
-return new Date(b) - new Date(a);
+return new Date(b)-new Date(a);
 });
 
 sortedTarikh.forEach(function(tarikh){
@@ -362,9 +363,7 @@ document.getElementById("statusTempahan").innerHTML=htmlStatus;
 function loadDashboard(){
 
 var script=document.createElement("script");
-
 script.src=URL+"?callback=showData";
-
 document.body.appendChild(script);
 
 }
