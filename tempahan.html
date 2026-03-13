@@ -155,7 +155,6 @@ if(document.getElementById("van").checked){
 kenderaan.push("Van");
 }
 
-
 if(kenderaan.length===0){
 
 Swal.fire({
@@ -168,7 +167,7 @@ return;
 }
 
 
-/* FORM DATA */
+/* DATA */
 
 let formData=new FormData();
 
@@ -192,14 +191,13 @@ formData.append("masaBalik",document.getElementById("masaBalik").value);
 formData.append("kenderaan",kenderaan.join(", "));
 
 
-/* HANTAR DATA */
-
 fetch(URL,{
 method:"POST",
+mode:"no-cors",
 body:formData
 })
-.then(res=>res.text())
-.then(res=>{
+
+.then(()=>{
 
 Swal.fire({
 icon:'success',
@@ -215,16 +213,6 @@ setTimeout(function(){
 window.location.href="dashboard.html";
 
 },2000);
-
-})
-.catch(err=>{
-
-Swal.fire({
-icon:'error',
-title:'Ralat menghantar data'
-});
-
-console.log(err);
 
 });
 
