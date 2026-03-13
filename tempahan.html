@@ -100,7 +100,6 @@ background:#125aa0;
 <label>Masa Balik</label>
 <input type="time" id="masaBalik">
 
-
 <h3>Kenderaan</h3>
 
 <div class="opsyen">
@@ -161,34 +160,27 @@ return;
 
 }
 
-/* gunakan FormData */
-
 let formData = new FormData();
 
 formData.append("tarikhMohon",document.getElementById("tarikhMohon").value);
 formData.append("aktiviti",document.getElementById("aktiviti").value);
 formData.append("tempat",document.getElementById("tempat").value);
-
 formData.append("nama",document.getElementById("nama").value);
 formData.append("jawatan",document.getElementById("jawatan").value);
-
 formData.append("pelajarLelaki",document.getElementById("lelaki").value);
 formData.append("pelajarPerempuan",document.getElementById("perempuan").value);
 formData.append("guru",document.getElementById("guru").value);
-
 formData.append("tarikhPergi",document.getElementById("tarikhPergi").value);
 formData.append("tarikhPulang",document.getElementById("tarikhPulang").value);
-
 formData.append("masaPergi",document.getElementById("masaPergi").value);
 formData.append("masaBalik",document.getElementById("masaBalik").value);
-
 formData.append("kenderaan",kenderaan.join(", "));
 
 fetch(URL,{
 method:"POST",
 body:formData
 })
-.then(res=>res.text())
+.then(res=>res.json())
 .then(res=>{
 
 Swal.fire({
@@ -201,18 +193,18 @@ showConfirmButton:false
 document.getElementById("borangTempahan").reset();
 
 setTimeout(function(){
-
 window.location.href="dashboard.html";
-
 },2000);
 
 })
-.catch(()=>{
+.catch(err=>{
 
 Swal.fire({
 icon:'error',
 title:'Ralat menghantar data'
 });
+
+console.log(err);
 
 });
 
