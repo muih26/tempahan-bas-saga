@@ -1,4 +1,4 @@
-const URL="https://script.google.com/macros/s/AKfycbwlGgsHcFFlJmiXVY9fDBHfEHZRUVfmOKA83UUWKtsemy79dJgTjI-vPu0T5aF47sluiA/exec";
+const URL="https://script.google.com/macros/s/AKfycby9vgJC313b5FQf5KxFBjmr1WteTF41M_ZYorPxs76cqnBWlJ6Vz7imw_Dx8_QwiQOSEw/exec";
 
 function hantarTempahan(){
 
@@ -30,4 +30,5 @@ alert("Tempahan gagal");
 });
 
 }
+
 
