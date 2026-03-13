@@ -135,9 +135,11 @@ background:#125aa0;
 
 const URL="https://script.google.com/macros/s/AKfycbwlGgsHcFFlJmiXVY9fDBHfEHZRUVfmOKA83UUWKtsemy79dJgTjI-vPu0T5aF47sluiA/exec";
 
-document.getElementById("borangTempahan").addEventListener("submit", function(e){
+
+document.getElementById("borangTempahan").addEventListener("submit",function(e){
 
 e.preventDefault();
+
 
 let kenderaan=[];
 
@@ -153,6 +155,7 @@ if(document.getElementById("van").checked){
 kenderaan.push("Van");
 }
 
+
 if(kenderaan.length===0){
 
 Swal.fire({
@@ -164,32 +167,36 @@ return;
 
 }
 
-let data={
 
-tarikhMohon:document.getElementById("tarikhMohon").value,
-aktiviti:document.getElementById("aktiviti").value,
-tempat:document.getElementById("tempat").value,
+/* FORM DATA */
 
-nama:document.getElementById("nama").value,
-jawatan:document.getElementById("jawatan").value,
+let formData=new FormData();
 
-pelajarLelaki:document.getElementById("lelaki").value,
-pelajarPerempuan:document.getElementById("perempuan").value,
-guru:document.getElementById("guru").value,
+formData.append("tarikhMohon",document.getElementById("tarikhMohon").value);
+formData.append("aktiviti",document.getElementById("aktiviti").value);
+formData.append("tempat",document.getElementById("tempat").value);
 
-tarikhPergi:document.getElementById("tarikhPergi").value,
-tarikhPulang:document.getElementById("tarikhPulang").value,
+formData.append("nama",document.getElementById("nama").value);
+formData.append("jawatan",document.getElementById("jawatan").value);
 
-masaPergi:document.getElementById("masaPergi").value,
-masaBalik:document.getElementById("masaBalik").value,
+formData.append("pelajarLelaki",document.getElementById("lelaki").value);
+formData.append("pelajarPerempuan",document.getElementById("perempuan").value);
+formData.append("guru",document.getElementById("guru").value);
 
-kenderaan:kenderaan.join(", ")
+formData.append("tarikhPergi",document.getElementById("tarikhPergi").value);
+formData.append("tarikhPulang",document.getElementById("tarikhPulang").value);
 
-};
+formData.append("masaPergi",document.getElementById("masaPergi").value);
+formData.append("masaBalik",document.getElementById("masaBalik").value);
+
+formData.append("kenderaan",kenderaan.join(", "));
+
+
+/* HANTAR DATA */
 
 fetch(URL,{
 method:"POST",
-body:JSON.stringify(data)
+body:formData
 })
 .then(res=>res.text())
 .then(res=>{
@@ -204,8 +211,20 @@ showConfirmButton:false
 document.getElementById("borangTempahan").reset();
 
 setTimeout(function(){
+
 window.location.href="dashboard.html";
+
 },2000);
+
+})
+.catch(err=>{
+
+Swal.fire({
+icon:'error',
+title:'Ralat menghantar data'
+});
+
+console.log(err);
 
 });
 
@@ -215,4 +234,3 @@ window.location.href="dashboard.html";
 
 </body>
 </html>
-
